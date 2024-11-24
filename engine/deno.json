@@ -1,0 +1,27 @@
+{
+  "unstable": [
+
+  ],
+  "lint": {
+    "rules": {
+      "exclude": ["no-var", "no-sloppy-imports", "no-inner-declarations"]
+    }
+  },
+  "compilerOptions": {
+    "strict": true,
+    "lib": [
+      "deno.window",
+      "dom",
+      "deno.ns"
+    ]
+  },
+  "tasks": {
+    "run": "deno run --allow-all ./src/main.ts",
+    "build": "deno run --allow-all ./switchExt.ts js && tsc && deno run --allow-all ./switchExt.ts ts"
+  },
+  "imports": {
+    "@webview/webview": "jsr:@webview/webview@^0.8.1",
+    "engine/": "./src/engine/",
+    "esbuild": "npm:esbuild@^0.24.0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "name": "Room with dog",
+    "background": "exit.png",
+    "entryText": "Прыгнув в люк, вы оказываетесь возле двери, которая, по счастью, оказывается не запертой! Открыв её, вы видите долгожданную свободу",
+    "objects": [{
+        "text": "Бежать!",
+        "position": {"x": 500, "y": 300},
+        "interact": {
+            "type": "changeScene",
+            "sceneId": "666_finish"
+        }
+    }]
+}

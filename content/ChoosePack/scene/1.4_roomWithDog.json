@@ -1,0 +1,40 @@
+{
+    "name": "Room with dog",
+    "background": "dog_room.png",
+    "entryText": "Вы забегаете в комнату. В центре комнаты люк, на котором сидит явно не дружелюбно настроеная собака. Слева возле стенки - шкаф.",
+    "objects": [{
+        "name": "dog",
+        "sprite": {
+            "path": "dog.png",
+            "size": 300
+        },
+        "position": {"x": 900, "y": 200},
+        "interact": {
+            "type": "function",
+            "path": "story.js/dogInteract"
+        }
+    }, {
+        "text": "Придвинуть шкаф к двери",
+        "position": {"x": 200, "y": 350},
+        "interact": [{
+            "type": "delete"
+        }, {
+            "type": "function",
+            "path": "story.js/moveShelf"
+        }]
+    }, {
+        "text": "Ждать",
+        "position": {"x": 200, "y": 300},
+        "interact": {
+            "type": "function",
+            "path": "story.js/dogWait"
+        }
+    }, {
+        "text": "Попытаться открыть люк",
+        "position": {"x": 200, "y": 250},
+        "interact": {
+            "type": "changeScene",
+            "sceneId": "e.2_dog"
+        }
+    }]
+}

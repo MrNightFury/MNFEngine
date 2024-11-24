@@ -1,0 +1,8 @@
+{
+    "text": "Подойти к люку",
+    "position": {"x": 900, "y": 300},
+    "interact": {
+        "type": "changeScene",
+        "sceneId": "1.5_trapdoor"
+    }
+}

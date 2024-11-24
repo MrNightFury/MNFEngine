@@ -1,0 +1,11 @@
+{
+    "name": "meat",
+    "sprite": {
+        "path": "items/meat.png",
+        "size": 200
+    },
+    "position": {"x": 500, "y": 300},
+    "interact": {
+        "type": "take"
+    }
+}

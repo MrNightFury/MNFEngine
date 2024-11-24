@@ -1,0 +1,10 @@
+{
+    "name": "Escape From Darkness LITE",
+    "defaultScene": "0.0_startScene",
+    "authors": [
+        "Вохрин Олег – разработчик, тимлид",
+        "Комолов Тимур – дизайнер, технический писатель",
+        "Хречко Сергей – тестировщик, верстальщик"
+    ],
+    "backgroundMusic": "ambient.mp3"
+}

@@ -1,0 +1,85 @@
+// text block for scene is in another file, mario
+
+.game_ux_element{
+    &.hidden{
+        display: none !important;
+    }
+}
+
+#inventory{
+    width: 100%;
+    height: 161px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #FFFFFF1A;
+    z-index: 10;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    .inventory_text{
+        font-size: 64px;
+        font-weight: 400;
+        line-height: 76.8px;
+        text-align: center;
+
+        -webkit-text-stroke: 1.5px #000000;
+    }
+
+    .itembox{
+        box-sizing: border-box;
+        width: 141px;
+        height: 141px;
+        border: 8px dashed #FFFFFF;
+        transition: all 0.3s ease;
+        &.full{
+            cursor: pointer;
+            &:hover{
+                box-shadow: 0 0 10px 5px #FFFFFF1A;
+            }
+        }
+        &.selected{
+            border-color: rgb(6, 185, 6);
+            background-color: #FFFFFF1A;
+        }
+    }
+
+    #game_text_opener{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #FFFFFF66;
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotateX(180deg);
+        &.opened{
+            transform: rotate(0deg);
+        }
+    }
+}
+
+#ingame_settings{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    .gs_button{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #FFFFFF73;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+}

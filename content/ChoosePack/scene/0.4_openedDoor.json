@@ -1,0 +1,33 @@
+{
+    "name": "Opened door",
+    "entryText": "Дверь поддалась! Но, кажется, грохот привлёк кого-то - громкие шаги быстро приближаются к вам.",
+    "persistent": true,
+    "background": "locked_door.png",
+    "objects": [
+        "crowbar", {
+            "text": "Драться!",
+            "position": {"x": 900, "y": 250},
+            "interact": {
+                "type": "changeScene",
+                "sceneId": "e.1_fight"
+            }
+        }, {
+            "text": "Спрятаться!",
+            "position": {"x": 900, "y": 300},
+            "interact": {
+                "type": "changeScene",
+                "sceneId": "0.5_hidden"
+            }
+        }, {
+            "text": "Бежать!",
+            "position": {"x": 900, "y": 350},
+            "interact": [{
+                "type": "changeScene",
+                "sceneId": "1.1_crossroad"
+            }, {
+                "type": "function",
+                "path": "story.js/decreaseTime"
+            }]
+        }
+    ]
+}

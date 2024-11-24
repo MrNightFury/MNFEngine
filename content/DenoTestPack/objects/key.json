@@ -1,0 +1,12 @@
+{
+    "name": "Key",
+    "sprite": {
+        "path": "items/key.png",
+        "size": 100
+    },
+    "position": { "x": 200, "y":200 },
+    "interact": {
+        "type": "take",
+        "item": "key"
+    }
+}

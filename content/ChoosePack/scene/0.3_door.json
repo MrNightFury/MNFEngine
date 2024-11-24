@@ -1,0 +1,26 @@
+{
+    "name": "Door",
+    "entryText": "Странная дверь. Вот бы было чем её открыть...",
+    "persistent": true,
+    "background": "black.jpg",
+    "objects": [
+        {
+            "sprite": {
+                "path": "door.png",
+                "size": {"x": 400, "y": 600}
+            },
+            "position": {"x": 500, "y": -25},
+            "interact": {
+                "type": "function",
+                "path": "story.js/doorInteract"
+            }
+        }, {
+            "text": "Вернуться",
+            "position": {"x": 900, "y": 400},
+            "interact": {
+                "type": "function",
+                "path": "goback.js/goback"
+            }
+        }
+    ]
+}

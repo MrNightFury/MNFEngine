@@ -1,0 +1,5 @@
+{
+    "tasks": {
+        "build": "cd engine && deno task build && cd ../modules/BaseInventory && deno task build && cd ../CoreModule && deno task build && cd ../GameModule && deno task build && cd ../InventoryModule && deno task build && cd ../PlayerModule && deno task build && cd ../WorldModule && deno task build"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Bathroom",
+    "background": "bathroom.png",
+    "entryText": "Зайдя в ванную, вы понимаете, что пахнет гнилое мясо. Запах доносится из муросного ведра.",
+    "objects": [{
+        "text": "Фу! Свалить отсюда",
+        "position": {"x": 200, "y": 350},
+        "interact": [{
+            "type": "function",
+            "path": "goback.js/goback"
+        }]
+    }, {
+        "text": "Порыться в ведре",
+        "position": {"x": 200, "y": 400},
+        "interact": [{
+            "type": "function",
+            "path": "story.js/getMeat"
+        }, {
+            "type": "delete"
+        }]
+    }]
+}

@@ -1,0 +1,20 @@
+{
+    "name": "Crossroad",
+    "background": "fork.png",
+    "entryText": "Вы стараетесь бежать как можно тише. Проскочив коридор, вы оказываетесь на развилке. Коридор продолжается дальше, а справа - лестница вниз, с которой доносятся шаги.",
+    "objects": [{
+        "text": "Вперёд!",
+        "position": {"x": 200, "y": 350},
+        "interact": [{
+            "type": "changeScene",
+            "sceneId": "1.2_crossroad"
+        }]
+    }, {
+        "text": "Вниз!",
+        "position": {"x": 200, "y": 400},
+        "interact": [{
+            "type": "changeScene",
+            "sceneId": "e.1_fight"
+        }]
+    }]
+}

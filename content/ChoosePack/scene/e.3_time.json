@@ -1,0 +1,13 @@
+{ 
+    "name": "Dog",
+    "background": "maniac.png",
+    "entryText": "Вас догнали! Надо срочно что-то сделать!",
+    "objects": [{
+        "text": "Драться!",
+        "position": {"x": 900, "y": 300},
+        "interact": {
+            "type": "changeScene",
+            "sceneId": "e.1_fight"
+        }
+    }]
+}

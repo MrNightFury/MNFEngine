@@ -1,0 +1,9 @@
+{
+    "name": "Tutorial2",
+    "text": "Now this item is in your inventory. Select it with click and use it on this text.",
+    "position": { "x": 475, "y": 550 },
+    "interact": {
+        "type": "function",
+        "path": "tutorial.js/tutorial2"
+    }
+}

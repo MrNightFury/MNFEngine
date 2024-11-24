@@ -1,0 +1,7 @@
+{
+    "name": "CoreModule",
+    "entryPoints": {
+        "deno": "./src/index.ts"
+    },
+    "namespace": "core"
+}

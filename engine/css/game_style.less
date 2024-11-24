@@ -1,0 +1,44 @@
+#game{
+    //it's still a section, so it has styles in main.less
+    #game_text_container{
+        box-sizing: border-box;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background-color: #FFFFFF1A;
+        z-index: 10;
+
+        position: absolute;
+        bottom: 170px;
+        left: 0;
+
+        transition: all 0.5s ease-in-out;
+        overflow: hidden;
+
+        font-size: 48px;
+        font-weight: 400;
+        line-height: 57.6px;
+        text-align: center;
+
+        .height_keeper{
+            height: fit-content;
+            margin: 12px 20px;
+        }
+    }
+
+
+    #game_scene_active_items{
+        .game_item{
+            position: absolute;
+            .gi_text{
+                display: block;
+                background-color: #ffffff85;
+                box-shadow: 0 0 10px 10px #ffffff85;
+                color: #000;
+                font-size: 24px;
+            }
+        }
+    }
+}

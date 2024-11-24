@@ -1,0 +1,28 @@
+{
+    "files.associations": {
+        "*.info": "json"
+    },
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "content/*/objects/*.json"
+            ],
+            "url": "./.vscode/schemas/object.json"
+        }, {
+            "fileMatch": [
+                "content/*/scene/*.json"
+            ],
+            "url": "./.vscode/schemas/scene.json"
+        }, {
+            "fileMatch": [
+                "content/*/pack.info"
+            ],
+            "url": "./.vscode/schemas/packinfo.json"
+        }, {
+            "fileMatch": [
+                "*/module.info"
+            ],
+            "url": "./.vscode/schemas/moduleinfo.json"
+        }
+    ]
+}

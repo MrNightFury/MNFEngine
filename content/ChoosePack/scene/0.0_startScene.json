@@ -1,0 +1,38 @@
+{
+    "name": "Start scene",
+    "background": "locked_room.png",
+    "entryText": "Вы просыпаетесь в темной комнате. Вы не помните, как здесь оказались. Вокруг вас полумрак, но вы слышите странные звуки, доносящиеся из-за двери. Вы должны выбраться отсюда.",
+    "persistent": true,
+    "objects": [
+        {
+            "text": "Ждать",
+            "position": {"x": 200, "y": 450},
+            "interact": [{
+                "type": "changeScene",
+                "sceneId": "0.1_waited"
+            }, {
+                "type": "playSound",
+                "sound": "test.mp3"
+            }]
+        }, {
+            "text": "Пошарить руками",
+            "position": {"x": 200, "y": 500},
+            "interact": [{
+                "type": "delete"
+            }, {
+                "type": "changeScene",
+                "sceneId": "0.2_shelf"
+            }]
+        }, {
+            "text": "Подойти к двери",
+            "position": {"x": 750, "y": 400},
+            "interact": [{
+                "type": "changeScene",
+                "sceneId": "0.3_door"
+            }, {
+                "type": "function",
+                "path": "misc.js/playSteps"
+            }]
+        }
+    ]
+}

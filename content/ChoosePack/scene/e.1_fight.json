@@ -1,0 +1,14 @@
+{ 
+    "name": "Fight",
+    "background": "maniac.png",
+    "entryText": "Вы выскакиваете на незнакомца. Он выскакивает на вас.",
+    "entryScript": "story.js/fightEntry",
+    "objects": [{
+        "text": "Ударить руками!",
+        "position": {"x": 900, "y": 300},
+        "interact": {
+            "type": "changeScene",
+            "sceneId": "e.0_death"
+        }
+    }]
+}

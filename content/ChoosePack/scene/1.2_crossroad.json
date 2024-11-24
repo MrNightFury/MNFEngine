@@ -1,0 +1,24 @@
+{
+    "name": "Crossroad",
+    "persistent": true,
+    "background": "fork.png",
+    "entryText": "Слева - ванная комната. Оттуда доносится какой-то странный запах. Может, там есть что-то полезное?",
+    "objects": [{
+        "text": "Вперёд!",
+        "position": {"x": 200, "y": 350},
+        "interact": [{
+            "type": "changeScene",
+            "sceneId": "1.4_roomWithDog"
+        }]
+    }, {
+        "text": "Войти",
+        "position": {"x": 200, "y": 400},
+        "interact": [{
+            "type": "changeScene",
+            "sceneId": "1.3_bathroom"
+        }, {
+            "type": "function",
+            "path": "story.js/decreaseTime"
+        }]
+    }]
+}

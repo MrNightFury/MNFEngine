@@ -1,0 +1,27 @@
+{
+    "name": "Start scene",
+    "background": "startScene_bg.jpg",
+    "entryText": "Вы просыпаетесь в темной комнате. Вы не помните, как здесь оказались. Вокруг вас ничего не видно, но вы слышите странные звуки. Вы должны выбраться отсюда.Вы просыпаетесь в темной комнате. Вы не помните, как здесь оказались. Вокруг вас ничего не видно, но вы слышите странные звуки. Вы должны выбраться отсюда.",
+    "persistent": true,
+    "objects": [
+        {
+            "name": "Door",
+            "sprite": {
+                "path": "items/door.png",
+                "size": 100
+            },
+            "position": {"x": 100, "y": 100},
+            "interact": {
+                "type": "changeScene",
+                "sceneId": "testSeaScene"
+            }
+        }, {
+            "name": "text",
+            "text": "Some text for tooltip",
+            "interact": {
+                "type": "function",
+                "path": "test.js/interact"
+            }
+        }
+    ]
+}

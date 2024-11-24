@@ -1,0 +1,12 @@
+{
+    "name": "crowbar",
+    "sprite": {
+        "path": "items/crowbar.png",
+        "size": 200
+    },
+    "position": {"x": 600, "y": 250},
+    "interact": {
+        "type": "take",
+        "item": "crowbar"
+    }
+}

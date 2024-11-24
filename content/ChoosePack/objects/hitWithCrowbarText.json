@@ -1,0 +1,10 @@
+{
+    "text": "Ударить ломом!",
+    "position": {"x": 900, "y": 350},
+    "interact": [{
+        "type": "spawn",
+        "object": "crowbarHitResultText"
+    }, {
+        "type": "delete"
+    }]
+}

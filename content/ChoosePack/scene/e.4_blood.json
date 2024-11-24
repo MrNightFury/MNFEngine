@@ -1,0 +1,13 @@
+{ 
+    "name": "Dog",
+    "background": "maniac.png",
+    "entryText": "Вы пытались, но, из-за укусов и кровотечения, скорость ваша невелика. Вас догнали!",
+    "objects": [{
+        "text": "Драться!",
+        "position": {"x": 900, "y": 300},
+        "interact": {
+            "type": "changeScene",
+            "sceneId": "e.1_fight"
+        }
+    }]
+}

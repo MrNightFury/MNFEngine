@@ -1,0 +1,18 @@
+{
+    "name": "Shelf",
+    "background": "locked_room.png",
+    "persistent": true,
+    "objects": [
+        "crowbar", {
+            "text": "Кажется, вы нашли лом. Возможно, стоит его взять",
+            "position": {"x": 600, "y": 200}
+        }, {
+            "text": "Вернуться назад",
+            "position": {"x": 600, "y": 500},
+            "interact": {
+                "type": "function",
+                "path": "goback.js/goback"
+            }
+        }
+    ]
+}

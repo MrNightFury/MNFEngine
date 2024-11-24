@@ -1,0 +1,76 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "type": {
+            "type": "string",
+            "enum": ["take", "function", "text", "changeScene", "spawn", "delete", "playSound"]
+        }
+    },
+    "required": ["type"],
+
+    "oneOf": [{
+        "properties": {
+            "type": {
+                "const": "take"
+            }
+        },
+        "required": []
+    }, {
+        "properties": {
+            "type": {
+                "const": "function"
+            },
+            "path": {
+                "type": "string"
+            }
+        },
+        "required": ["path"]
+    }, {
+        "properties": {
+            "type": {
+                "const": "text"
+            },
+            "text": {
+                "type": "string"
+            }
+        },
+        "required": []
+    }, {
+        "properties": {
+            "type": {
+                "const": "changeScene"
+            },
+            "sceneId": {
+                "type": "string"
+            }
+        },
+        "required": ["sceneId"]
+    }, {
+        "properties": {
+            "type": {
+                "const": "spawn"
+            },
+            "object": {
+                "type": "string"
+            }
+        },
+        "required": ["object"]
+    }, {
+        "properties": {
+            "type": {
+                "const": "delete"
+            }
+        },
+        "required": []
+    }, {
+        "properties": {
+            "type": {
+                "const": "playSound"
+            },
+            "sound": {
+                "type": "string"
+            }
+        },
+        "required": ["sound"]
+    }]
+}
