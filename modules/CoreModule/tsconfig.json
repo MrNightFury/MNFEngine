@@ -10,12 +10,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "declaration": true,
     
     "paths": {
       "engine/*": ["../../engine/js/engine/*"]
     },
     
   },
-  "include": ["./src/**/*", "./mod.ts"],
-  "exclude": ["../../engine/src/*"]
+  "include": ["./src/**/*"]
 }
