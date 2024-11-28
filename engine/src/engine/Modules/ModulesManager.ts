@@ -33,6 +33,7 @@ export class ModulesManager {
             return;
         }
 
+
         const modulePath = await this.loader.findModule(name);
         if (!modulePath) {
             this.logger.error("Module not found: " + name);
@@ -77,7 +78,7 @@ export class ModulesManager {
             }
         }
         this.logger.log("Modules loaded.");
-        this.logger.log(this.loader.namespaces);
+        this.logger.log("Registered namespaces: ", this.loader.namespaces);
     }
 
     // deno-lint-ignore no-explicit-any
@@ -86,6 +87,12 @@ export class ModulesManager {
             return this.loadedModules.get(ClassType) as T;
         } else {
             return this.loadedModules.get(ClassType.name) as T;
+        }
+    }
+
+    notifyPageLoaded() {
+        for (const module of this.loadedModules.values()) {
+            module.pageLoaded();
         }
     }
 }

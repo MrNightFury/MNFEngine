@@ -5,10 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet/less" type="text/css" href="css/main.less">
+    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' null https: unsafe-inline file:;"> -->
 
+    <!-- <link rel="stylesheet/less" type="text/css" href="css/main.less">
     <script src="https://cdn.jsdelivr.net/npm/less" data-env="development" type="text/javascript"></script>
-    <script>less.watch()</script>
+    <script>less.watch()</script> -->
+
+    <link rel="stylesheet"href="css/main.css">
+    <link rel="stylesheet"href="css/menu.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -21,6 +25,36 @@
     </script>
 </head>
 <body>
+    <section id="main_menu">
+        <img class="background_img" src="../src/img/main_menu_bg.jpg">
+        <div id="mm_main" class="mm_container">
+            <h1 id="mm_item_game_start" class="mm_item" onclick="startGame()">Начать игру</h1>
+            <h1 id="mm_item_settings" class="mm_item">Настройки</h1>
+            <h1 id="mm_item_authors" class="mm_item">Авторы</h1>
+        </div>
+        
+        <div id="mm_settings" class="mm_container hidden">
+            <h2 class="mm_text">Громкость звука</h2>
+            <input type="range" min="0" max="100" value="50" class="mm_slider" id="mm_sounds_level">
+            <h2 class="mm_text">Громкость музыки</h2>
+            <input type="range" min="0" max="100" value="50" class="mm_slider" id="mm_music_level">
+            <h1 class="mm_item mm_back">Назад</h1>
+        </div>
+        <div id="mm_authors" class="mm_container hidden">
+            <h2 class="mm_text">Создатель пака ленивый и не указал авторов</h2>
+            <h1 class="mm_item mm_back">Назад</h1>
+        </div>
+
+        <script>
+            function startGame() {
+                $("#main_menu").toggleClass("hidden");
+                $("#game").toggleClass("hidden");
+                console.log("game started");
+            }
+        </script>
+    </section>
+
+    <div id="old">
     <!-- <div id="inventory" class="game_ux_element hidden">
         <h2 class="inventory_text">Инвентарь</h2>
 
@@ -64,31 +98,6 @@
         </div>
     </div> -->
 
-
-
-    <section id="main_menu">
-        <!-- <img class="background_img" src="../src/img/main_menu_bg.jpg">
-        <div id="mm_main" class="mm_container">
-            <h1 id="mm_item_game_start" class="mm_item">Начать игру</h1>
-            <h1 id="mm_item_settings" class="mm_item">Настройки</h1>
-            <h1 id="mm_item_authors" class="mm_item">Авторы</h1>
-        </div>
-        
-        <div id="mm_settings" class="mm_container hidden">
-            <h2 class="mm_text">Громкость звука</h2>
-            <input type="range" min="0" max="100" value="50" class="mm_slider" id="mm_sounds_level">
-            <h2 class="mm_text">Громкость музыки</h2>
-            <input type="range" min="0" max="100" value="50" class="mm_slider" id="mm_music_level">
-            <h1 class="mm_item mm_back">Назад</h1>
-        </div>
-        <div id="mm_authors" class="mm_container hidden">
-            <h2 class="mm_text">Создатель пака ленивый и не указал авторов</h2>
-            <h1 class="mm_item mm_back">Назад</h1>
-        </div> -->
-    </section>
-
-
-
     <!-- <section id="game" class="hidden">
         <img class="background_img" src="../src/img/main_menu_bg.jpg"> -->
 
@@ -111,6 +120,7 @@
             <!-- <img class="game_item" style="top: 300px; left: 500px; width: 100px; height: 100px;" src="../src/img/item_key.png" data-index=0> -->
         <!-- </div>
     </section> -->
+    </div>
 </body>
     <script src="./js/main.js" type="module"></script>
     <script>pageLoaded()</script>

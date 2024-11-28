@@ -1,5 +1,6 @@
 import { Logger } from "../Logger.ts";
 
+
 export class DOM {
     logger: Logger;
 
@@ -10,7 +11,7 @@ export class DOM {
     }
 
     appendBody(html: string) {
-        this.logger.log(html);
+        // this.logger.log(html);
 
         if (ENV.deno) {
             if (!ENV.windowStarted) {
@@ -25,8 +26,22 @@ export class DOM {
 
     onWindowStarted() {
         if (ENV.deno) {
-            ENV.webview.runScript(`document.body.innerHTML = \`${this.bodyBuffer}\``);
+            ENV.webview.runScript(`document.body.innerHTML += \`${this.bodyBuffer}\``);
             this.bodyBuffer = "";
+        }
+    }
+
+    addOnClickEvent(selector: string, callback: () => void) {
+        if (ENV.deno) {
+            ENV.webview.runScript(`
+                $("${selector}").click(() => {
+                    (${callback.toString()})();
+                });
+            `);
+        } else {
+            $(selector).click(() => {
+                callback();
+            });
         }
     }
 }

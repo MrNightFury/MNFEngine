@@ -17,7 +17,8 @@
   },
   "tasks": {
     "run": "deno run --allow-all ./src/main.ts",
-    "build": "deno run --allow-all ./switchExt.ts js && tsc && deno run --allow-all ./switchExt.ts ts"
+    "build": "deno run --allow-all ./switchExt.ts js && tsc && deno run --allow-all ./switchExt.ts ts",
+    "compile": "deno compile --allow-all ./src/main.ts"
   },
   "imports": {
     "@webview/webview": "jsr:@webview/webview@^0.8.1",

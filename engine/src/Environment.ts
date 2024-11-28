@@ -2,6 +2,8 @@ import { Window } from "./Window.ts";
 
 declare global {
     var ENV: ENV;
+    // deno-lint-ignore no-explicit-any
+    var $: any;
 }
 
 export enum Runtime {

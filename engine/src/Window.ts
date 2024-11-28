@@ -9,6 +9,7 @@ import { Engine } from "engine/Engine.ts";
 export declare interface Window {
     navigate(url: string): void;
     run(): void;
+    // deno-lint-ignore ban-types
     bind(event: string, callback: Function): void;
     eval(script: string): void;
 }

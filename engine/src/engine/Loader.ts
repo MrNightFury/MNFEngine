@@ -48,6 +48,7 @@ export class Loader {
         for (const source of this.moduleSources) {
             const sourceBasePath = source.basePath;
 
+            // console.log(`${sourceBasePath}/${moduleName}/${FileType.MODULE_INFO}`);
             const result = await this.getFileByPath(`${sourceBasePath}/${moduleName}/${FileType.MODULE_INFO}`,
                                                     FileType.MODULE_INFO) as IModuleInfo;
 
@@ -66,11 +67,16 @@ export class Loader {
 
         // this.moduleSources.clear();
         // console.log(import.meta.url + "/../../../modules/");
-        console.log(new URL("../../../modules/", import.meta.url).toString());
+        // console.log(new URL("../../../modules/", import.meta.url).toString());
+        console.log(new URL("../modules/", "file://" + Deno.cwd() + "/").toString());
+        // console.log(Deno.cwd())
+        // console.log(ENV.deno)
 
         this.moduleSources.add({
             // basePath: "../modules/",
-            basePath: new URL("../../../modules/", import.meta.url).toString(),
+            basePath: ENV.deno ?
+                        new URL("../modules/", "file://" + Deno.cwd() + "/").toString()
+                    :   new URL("../../../modules/", import.meta.url).toString(),
             type: ENV.deno ? SourceType.LOCAL : SourceType.REMOTE
         });
     }
