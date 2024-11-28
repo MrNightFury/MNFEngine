@@ -31,6 +31,7 @@ async function processDir(dir: string) {
             let content = await Deno.readTextFile(filePath);
 
             content = content.replaceAll(new RegExp(`(import .* from ['"].*)\.${d[arg]}(['"])`, "g"), `$1.${arg}$2`);
+            content = content.replaceAll(new RegExp(`(export .* from ['"].*)\.${d[arg]}(['"])`, "g"), `$1.${arg}$2`);
             content = content.replaceAll(new RegExp(`(import ['"].*)\.${d[arg]}(['"])`, "g"), `$1.${arg}$2`);
             content = content.replaceAll(new RegExp(`(import\p*\\(['"].*\.)${d[arg]}(['"]\\))`, "g"), `$1${arg}$2`);
 
