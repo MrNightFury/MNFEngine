@@ -15,6 +15,8 @@ export class Engine {
     loader = new Loader();
     modulesManager = new ModulesManager(this.loader);
     DOM = new DOM();
+
+    private lastId: number = 0;
     
 
     constructor() {
@@ -35,6 +37,7 @@ export class Engine {
 
         if (this.packInfo.pfv == undefined) {
             this.logger.warn("Pack version not found. Fallback to v1.");
+            // deno-lint-ignore no-explicit-any
             (this.packInfo as any).pfv = 1;
         }
 
@@ -44,5 +47,9 @@ export class Engine {
         } else {
             await this.modulesManager.loadModules(this.packInfo.modules);
         }
+    }
+
+    getNextId() {
+        return this.lastId++;
     }
 }

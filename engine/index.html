@@ -26,6 +26,14 @@
 </head>
 <body>
     <section id="main_menu">
+        <script>
+            function startGame() {
+                $("#main_menu").toggleClass("hidden");
+                $("#game").toggleClass("hidden");
+                console.log("game started");
+            }
+        </script>
+        
         <img class="background_img" src="../src/img/main_menu_bg.jpg">
         <div id="mm_main" class="mm_container">
             <h1 id="mm_item_game_start" class="mm_item" onclick="startGame()">Начать игру</h1>
@@ -44,14 +52,6 @@
             <h2 class="mm_text">Создатель пака ленивый и не указал авторов</h2>
             <h1 class="mm_item mm_back">Назад</h1>
         </div>
-
-        <script>
-            function startGame() {
-                $("#main_menu").toggleClass("hidden");
-                $("#game").toggleClass("hidden");
-                console.log("game started");
-            }
-        </script>
     </section>
 
     <div id="old">

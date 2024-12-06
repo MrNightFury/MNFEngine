@@ -11,9 +11,12 @@ export class DOM {
         this.logger = new Logger(this);
     }
 
+    /**
+     * Append HTML to the body of the window.
+     * It is safe to use this method before the window is started, it will buffer the HTML and append it when the window is started
+     * @param html 
+     */
     appendBody(html: string) {
-        // this.logger.log(html);
-
         if (ENV.deno) {
             if (!ENV.windowStarted) {
                 this.bodyBuffer += html;
@@ -37,7 +40,6 @@ export class DOM {
         }
     }
 
-    addOnClickEvent(selector: string, callback: () => void) {
     addOnClickEvent(selector: string, callback: () => void | string) {
         if (ENV.deno) {
             ENV.webview.runScript(`

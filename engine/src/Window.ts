@@ -4,7 +4,6 @@ import { Webview } from "@webview/webview";
 import * as path from "https://deno.land/std@0.224.0/path/mod.ts";
 import { Engine } from "engine/Engine.ts";
 
-// import JQuery from "npm:@types/jquery";
 
 export declare interface Window {
     navigate(url: string): void;
@@ -15,8 +14,6 @@ export declare interface Window {
 }
 
 export class Window extends Webview {
-    // $: JQueryStatic = JQuery;
-
     // @ts-ignore:
     ffi = Deno.dlopen("C:\\Windows\\System32\\user32.dll", {
         "MoveWindow": { parameters: ["pointer", "i32", "i32", "i32", "i32", "i32"], result: "i32" },
