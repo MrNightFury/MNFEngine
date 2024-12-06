@@ -1,8 +1,8 @@
 import type { Loader } from "engine/Loader.ts";
 import { Module } from "engine/Modules/Module.ts";
 import { Logger } from "../../Logger.ts";
-import { FileType } from "engine/interfaces/PackFileTypes.ts";
-import { IModuleInfo } from "engine/interfaces/IModuleInfo.ts";
+import { FileType } from "engine/Interfaces/PackFileTypes.ts";
+import { IModuleInfo } from "engine/Interfaces/IModuleInfo.ts";
 
 
 // deno-lint-ignore no-explicit-any

@@ -1,7 +1,7 @@
 import { isDeno } from "../Environment.ts";
-import { FileType, getFileExtension } from "engine/interfaces/PackFileTypes.ts";
-import type { IPackInfo } from "engine/interfaces/IPackInfo.ts";
-import type { IModuleInfo } from "engine/interfaces/IModuleInfo.ts";
+import { FileType, getFileExtension } from "./Interfaces/PackFileTypes.ts";
+import type { IPackInfo } from "./Interfaces/IPackInfo.ts";
+import type { IModuleInfo } from "./Interfaces/IModuleInfo.ts";
 
 if (isDeno()) {
     // @ts-ignore: 

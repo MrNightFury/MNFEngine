@@ -1,8 +1,8 @@
 import { Loader } from "engine/Loader.ts";
 import { ModulesManager } from "engine/Modules/ModulesManager.ts";
-import { IPackInfo } from "engine/interfaces/IPackInfo.ts";
+import { IPackInfo } from "./Interfaces/IPackInfo.ts";
+import { DOM } from "engine/DOM.ts";
 import { Logger } from "../Logger.ts";
-import { DOM } from "./DOM.ts";
 
 
 export class Engine {
