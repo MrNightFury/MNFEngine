@@ -1,5 +1,5 @@
 import { Module } from "engine/Modules/Module.ts";
-import { FileType } from "engine/interfaces/PackFileTypes.ts";
+import { FileType } from "engine/Interfaces/PackFileTypes.ts";
 
 export class InventoryModule extends Module {
     pageLoaded(): Promise<void> {
