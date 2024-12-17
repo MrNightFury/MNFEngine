@@ -27,7 +27,7 @@ export class Window extends Webview {
         this.bind("pageLoaded", () => {
             if (ENV.deno) {
                 ENV.windowStarted = true;
-                this.engine.DOM.onWindowStarted();
+                this.engine.DOM.onPageLoaded();
             }
         });
     }

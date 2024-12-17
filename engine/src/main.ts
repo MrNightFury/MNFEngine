@@ -1,6 +1,7 @@
 import { setupEnv } from "./Environment.ts";
 import { Engine } from "engine/Engine.ts";
 import { Logger } from "./Logger.ts";
+import { SceneObject } from "engine/Objects/SceneObject.ts";
 
 const logger = new Logger(new (class Main {})());
 
@@ -26,8 +27,19 @@ if (ENV.deno) {
 }
 
 await engine.loadPack("DenoTestPack");
+const testObj = new SceneObject("img", {
+    x: 100,
+    y: 100
+}, {
+    src: "https://via.placeholder.com/150",
+    // style: "top: 100px; left: 100px;"
+});
+// deno-lint-ignore no-explicit-any
+testObj.events.on("click", (_: any) => {
+    testObj.destroy();
+});
 
 if (ENV.deno) {
     logger.log("Running webview...");
-    ENV.webview?.run();
-}
+    ENV.webview.run();
+};

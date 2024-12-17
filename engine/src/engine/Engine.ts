@@ -3,6 +3,7 @@ import { ModulesManager } from "engine/Modules/ModulesManager.ts";
 import { IPackInfo } from "./Interfaces/IPackInfo.ts";
 import { DOM } from "engine/DOM.ts";
 import { Logger } from "../Logger.ts";
+import type { BaseObject } from "engine/Objects/BaseObject.ts";
 
 
 export class Engine {
@@ -14,14 +15,16 @@ export class Engine {
     logger = new Logger(this);
     loader = new Loader();
     modulesManager = new ModulesManager(this.loader);
-    DOM = new DOM();
+    DOM: DOM;;
 
     private lastId: number = 0;
+    objects: Set<BaseObject> = new Set();
     
 
     constructor() {
         this.logger.log("Engine starting...");
         Engine.instance = this;
+        this.DOM = new DOM();
     }
 
     async loadPack(packName: string) {

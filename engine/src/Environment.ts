@@ -2,8 +2,11 @@ import { Window } from "./Window.ts";
 
 declare global {
     var ENV: ENV;
+    // @ts-ignore:
     // deno-lint-ignore no-explicit-any
     var $: any;
+
+    var runEvent: (event: string, data: any) => void;
 }
 
 export enum Runtime {
@@ -46,6 +49,8 @@ export function setupEnv() {
         windowStarted: false,
         baseImportPath: import.meta.url.replace(/main.[tj]s/g, "")
     }
+
+    console.log("ENV", ENV);
 }
 
 export function isDeno() {

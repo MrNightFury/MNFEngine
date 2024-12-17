@@ -1,11 +1,15 @@
+// deno-lint-ignore-file no-explicit-any
 import { Logger } from "../Logger.ts";
+import { EventEmitter } from "engine/EventEmitter.ts";
 
 
 export class DOM {
     logger: Logger;
-
+    // Buffers for appending HTML before the window is started
     bodyBuffer: string = "";
     gameObjectsBuffer: Record<string, string> = {};
+
+    emitter = new EventEmitter(this);
 
     constructor() {
         this.logger = new Logger(this);
@@ -28,7 +32,7 @@ export class DOM {
         }
     }
 
-    onWindowStarted() {
+    onPageLoaded() {
         if (ENV.deno) {
             ENV.webview.runScript(`document.body.innerHTML += \`${this.bodyBuffer}\``);
             this.bodyBuffer = "";
@@ -38,9 +42,23 @@ export class DOM {
                 ENV.webview.runScript(`$("${selector}").append(\`${children}\`)`);
             }
         }
+
+        if (ENV.deno) {
+            ENV.webview.bind("runEvent", (event: string, data: any) => {
+                this.logger.log("Event", event, data);
+                this.emitter.emit(event, data);
+            })
+        } else {
+            runEvent = (event: string, data: any) => {
+                this.logger.log("Event", event, data);
+                this.emitter.emit(event, data)
+            };
+        }
+
+        this.emitter.emit("pageLoaded", null);
     }
 
-    addOnClickEvent(selector: string, callback: () => void | string) {
+    addInviewOnClickEvent(selector: string, callback: () => void) {
         if (ENV.deno) {
             ENV.webview.runScript(`
                 $("${selector}").click(() => {
@@ -53,6 +71,11 @@ export class DOM {
             });
         }
     }
+
+    // addOnClickCallback(selector: string, callback: () => void) {
+    //     this.runScript(`$(${selector}).click(() =>)`);
+    // }
+    
 
     runScript(func: (() => void) | string) {
         if (ENV.deno) {
@@ -89,9 +112,5 @@ export class DOM {
         } else {
             $(selector).append(children);
         }
-
-
-
-
     }
 }

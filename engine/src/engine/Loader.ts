@@ -65,8 +65,10 @@ export class Loader {
         });
 
         // console.log(new URL("../modules/", "file://" + Deno.cwd() + "/").toString());
+        
         this.moduleSources.add({
             basePath: ENV.deno ?
+            // @ts-ignore:
                         new URL("../modules/", "file://" + Deno.cwd() + "/").toString()
                     :   new URL("../../../modules/", import.meta.url).toString(),
             type: ENV.deno ? SourceType.LOCAL : SourceType.REMOTE
