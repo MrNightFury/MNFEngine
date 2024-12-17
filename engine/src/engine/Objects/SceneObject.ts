@@ -1,35 +1,19 @@
-import { BaseObject } from "engine/Objects/BaseObject.ts";
-import { DOM } from "engine/DOM.ts";
-import { Engine } from "engine/Engine.ts";
+import { HTMLObject } from "engine/Objects/HTMLObject.ts";
 
-// @ts-ignore: 
-import type $ from "npm:@types/jquery";
+export interface Position {
+    x: number;
+    y: number;
+}
+
 
 /**
- * Represents any object that can be added to the scene.
+ * Represents any object that can be added to scene.
  */
-export class SceneObject extends BaseObject {
-    DOM: DOM;
-    html!: JQuery<HTMLElement>;
-
-    constructor(tag: string, attributes: Record<string, string>) {
-        super();
-        this.DOM = Engine.instance.DOM;
-        const text = this.DOM.createTagText(tag, {
+export class SceneObject extends HTMLObject{
+    constructor(tag: string, position: Position, attributes: Record<string, string>) {
+        super("#scene_items_container", tag, {
             ...attributes,
-            id: `${this.constructor.name}_${this.id}`,
-            class: attributes.class ? `${attributes.class} ${this.constructor.name}` : this.constructor.name
+            style: `${attributes.style}; top: ${position.y}; left: ${position.x};`
         });
-        this.DOM.addChildren("#scene_items_container", text);
-    }
-
-    get selector() {
-        return `#${this.id}`;
-    }
-
-    exec(func: () => void | string) {
-        let functionText = typeof func == "string" ? func : func.toString();
-        functionText = functionText.replaceAll(/this.html/g, `$(${this.selector})`);
-        this.DOM.runScript(functionText);
     }
 }
