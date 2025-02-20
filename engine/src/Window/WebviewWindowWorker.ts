@@ -1,0 +1,28 @@
+import { Webview } from "@webview/webview";
+//@ts-ignore:
+import * as path from "https://deno.land/std@0.224.0/path/mod.ts";
+import { WorkerMessageBody } from "./WorkerMessage.ts";
+import { Logger } from "misc/Logger.ts";
+
+const logger = new Logger(new (class WebviewWindowWorker {})());
+
+const webview = new Webview(true);
+webview.navigate("file://" + path.resolve("index.html"));
+
+self.onmessage = (event: MessageEvent<WorkerMessageBody>) => {
+    logger.log("Worker message: ", event.data);
+    
+    switch (event.data.event) {
+        case "runMethod": {
+            // deno-lint-ignore no-explicit-any
+            (webview[event.data.method] as any)(...event.data.args);
+        }
+    }
+
+}
+
+webview.run();
+
+self.postMessage({
+    event: "closed"
+});

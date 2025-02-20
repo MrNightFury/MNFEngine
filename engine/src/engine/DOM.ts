@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { Logger } from "../Logger.ts";
 import { EventEmitter } from "engine/EventEmitter.ts";
+import { Engine } from "engine/Engine.ts";
 
 
 export class DOM {
@@ -13,6 +14,7 @@ export class DOM {
 
     constructor() {
         this.logger = new Logger(this);
+        this.emitter.eventNameField = "object"
     }
 
     /**
@@ -25,7 +27,7 @@ export class DOM {
             if (!ENV.windowStarted) {
                 this.bodyBuffer += html;
             } else {
-                ENV.webview.runScript(`document.body.innerHTML += \`${html}\``);
+                ENV.window.runScript(`document.body.innerHTML += \`${html}\``);
             }
         } else {
             document.body.innerHTML += html;
@@ -33,19 +35,20 @@ export class DOM {
     }
 
     onPageLoaded() {
+        this.logger.log("Page loaded!");
         if (ENV.deno) {
-            ENV.webview.runScript(`document.body.innerHTML += \`${this.bodyBuffer}\``);
+            ENV.window.runScript(`document.body.innerHTML += \`${this.bodyBuffer}\``);
             this.bodyBuffer = "";
 
-            console.log(this.gameObjectsBuffer);
             for (const [selector, children] of Object.entries(this.gameObjectsBuffer)) {
-                ENV.webview.runScript(`$("${selector}").append(\`${children}\`)`);
+                ENV.window.runScript(`$("${selector}").append(\`${children}\`)`);
             }
         }
+        
 
         if (ENV.deno) {
-            ENV.webview.bind("runEvent", (event: string, data: any) => {
-                this.logger.log("Event", event, data);
+            ENV.window.bind("runEvent", (event: string, data: any) => {
+                this.logger.log("Event", event, data.event);
                 this.emitter.emit(event, data);
             })
         } else {
@@ -54,13 +57,14 @@ export class DOM {
                 this.emitter.emit(event, data)
             };
         }
-
+        
+        Engine.instance.modulesManager.notifyPageLoaded();
         this.emitter.emit("pageLoaded", null);
     }
 
     addInviewOnClickEvent(selector: string, callback: () => void) {
         if (ENV.deno) {
-            ENV.webview.runScript(`
+            ENV.window.runScript(`
                 $("${selector}").click(() => {
                     (${callback.toString()})();
                 });
@@ -79,7 +83,7 @@ export class DOM {
 
     runScript(func: (() => void) | string) {
         if (ENV.deno) {
-            ENV.webview.runScript(func);
+            ENV.window.runScript(func);
         } else {
             if (typeof func === "string") {
                 eval(func);
@@ -107,7 +111,7 @@ export class DOM {
                     this.gameObjectsBuffer[selector] += children;
                 }
             } else {
-                ENV.webview.runScript(`$("${selector}").append(\`${children}\`)`);
+                ENV.window.runScript(`$("${selector}").append(\`${children}\`)`);
             }
         } else {
             $(selector).append(children);

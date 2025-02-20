@@ -1,4 +1,4 @@
-import { Window } from "./Window.ts";
+import { GameWindow } from "engine/Window.ts";
 
 declare global {
     var ENV: ENV;
@@ -27,7 +27,9 @@ export interface DenoENV extends BaseENV {
     deno: true;
 
     windowStarted: boolean;
-    webview: Window;
+    // webview: Window;
+    window: GameWindow;
+    // window: WindowWorkerInterface;
 }
 
 export interface BrowserENV extends BaseENV {

@@ -3,3 +3,4 @@ node_modules/
 docs/
 engine/js
 front/
+engine/WebView2Loader.dll
