@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { Logger } from "../Logger.ts";
+import { Logger } from "../misc/Logger.ts";
 import { EventEmitter } from "engine/EventEmitter.ts";
 import { Engine } from "engine/Engine.ts";
 

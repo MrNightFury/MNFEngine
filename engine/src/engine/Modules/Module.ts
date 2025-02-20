@@ -1,4 +1,4 @@
-import { Logger } from "../../Logger.ts";
+import { Logger } from "misc/Logger.ts";
 import { Engine } from "engine/Engine.ts";
 import { IModuleInfo } from "engine/Interfaces/IModuleInfo.ts";
 

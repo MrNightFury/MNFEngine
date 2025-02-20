@@ -1,12 +1,19 @@
 // deno-lint-ignore-file no-explicit-any
+import { Logger } from "misc/Logger.ts";
+
+
 export class EventEmitter<T extends Record<string, any>>{
     parent: any;
+    logger: Logger;
+    debug: boolean;
 
     // deno-lint-ignore ban-types
     listeners: Map<keyof T, Array<Function>> = new Map();
 
-    constructor(parent: any) {
+    constructor(parent: any, runEventsOnParent: boolean = false, debug: boolean = false) {
         this.parent = parent;
+        this.logger = new Logger(`${parent.constructor.name} Emitter`);
+        this.debug = debug;
     }
 
     on<K extends keyof T>(event: K, listener: (data: T[K]) => void) {
@@ -14,6 +21,10 @@ export class EventEmitter<T extends Record<string, any>>{
             this.listeners.set(event, []);
         }
         this.listeners.get(event)?.push(listener);
+        
+        if (this.debug) {
+            this.logger.log("on", event, listener.toString());
+        }
     }
 
     emit<K extends keyof T>(event: string, data: T[K]) {
@@ -28,6 +39,10 @@ export class EventEmitter<T extends Record<string, any>>{
         this.listeners.get(event)?.forEach((listener) => {
             listener(data);
         });
+
+        if (this.debug) {
+            this.logger.log("emit", event, data ? data.event : null);
+        }
     }
 
     parseEvent<K extends keyof T>(event: {event: string} & T[K]) {

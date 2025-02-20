@@ -1,7 +1,7 @@
 import { setupEnv } from "./Environment.ts";
 import { Engine } from "engine/Engine.ts";
-import { Logger } from "./Logger.ts";
 import { SceneObject } from "engine/Objects/SceneObject.ts";
+import { Logger } from "misc/Logger.ts";
 
 const logger = new Logger(new (class Main {})());
 

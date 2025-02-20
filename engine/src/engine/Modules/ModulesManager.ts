@@ -1,6 +1,6 @@
 import type { Loader } from "engine/Loader.ts";
 import { Module } from "engine/Modules/Module.ts";
-import { Logger } from "../../Logger.ts";
+import { Logger } from "misc/Logger.ts";
 import { FileType } from "engine/Interfaces/PackFileTypes.ts";
 import { IModuleInfo } from "engine/Interfaces/IModuleInfo.ts";
 

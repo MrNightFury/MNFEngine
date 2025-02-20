@@ -3,11 +3,16 @@ export class Logger {
     label: string;
 
     constructor(cls: any) {
-        this.label = cls.constructor.name;
+        if (typeof cls == "string") {
+            this.label = cls;
+        } else {
+            this.label = cls.constructor.name;
 
-        if ("id" in cls) {
-            this.label += " " + cls.id;
+            if ("id" in cls) {
+                this.label += " " + cls.id;
+            }
         }
+        
     }
     
     log(...args: any[]) {

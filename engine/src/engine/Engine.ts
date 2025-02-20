@@ -2,7 +2,7 @@ import { Loader } from "engine/Loader.ts";
 import { ModulesManager } from "engine/Modules/ModulesManager.ts";
 import { IPackInfo } from "./Interfaces/IPackInfo.ts";
 import { DOM } from "engine/DOM.ts";
-import { Logger } from "../Logger.ts";
+import { Logger } from "misc/Logger.ts";
 import type { BaseObject } from "engine/Objects/BaseObject.ts";
 
 
