@@ -4,14 +4,18 @@ import { Logger } from "misc/Logger.ts";
 
 export class EventEmitter<T extends Record<string, any>>{
     parent: any;
+    runEventsOnParent: boolean;
     logger: Logger;
     debug: boolean;
+
+    public eventNameField = "event";
 
     // deno-lint-ignore ban-types
     listeners: Map<keyof T, Array<Function>> = new Map();
 
     constructor(parent: any, runEventsOnParent: boolean = false, debug: boolean = false) {
         this.parent = parent;
+        this.runEventsOnParent = runEventsOnParent;
         this.logger = new Logger(`${parent.constructor.name} Emitter`);
         this.debug = debug;
     }
@@ -28,9 +32,11 @@ export class EventEmitter<T extends Record<string, any>>{
     }
 
     emit<K extends keyof T>(event: string, data: T[K]) {
-        const eventName = 'on' + event.charAt(0).toUpperCase() + event.slice(1);
-        if (this.parent[eventName] && this.parent[eventName] instanceof Function) {
-            this.parent[eventName](data);
+        if (this.runEventsOnParent) {
+            const eventName = 'on' + event.charAt(0).toUpperCase() + event.slice(1);
+            if (this.parent[eventName] && this.parent[eventName] instanceof Function) {
+                this.parent[eventName](data);
+            }
         }
 
         if (!this.listeners.has(event)) {
@@ -46,6 +52,6 @@ export class EventEmitter<T extends Record<string, any>>{
     }
 
     parseEvent<K extends keyof T>(event: {event: string} & T[K]) {
-        this.emit(event.event, event);
+        this.emit(event[this.eventNameField], event);
     }
 }
