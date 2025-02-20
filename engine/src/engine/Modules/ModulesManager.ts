@@ -33,7 +33,6 @@ export class ModulesManager {
             return;
         }
 
-
         const modulePath = await this.loader.findModule(name);
         if (!modulePath) {
             this.logger.error("Module not found: " + name);

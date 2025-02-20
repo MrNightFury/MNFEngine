@@ -2,6 +2,7 @@ import { isDeno } from "../Environment.ts";
 import { FileType, getFileExtension } from "./Interfaces/PackFileTypes.ts";
 import type { IPackInfo } from "./Interfaces/IPackInfo.ts";
 import type { IModuleInfo } from "./Interfaces/IModuleInfo.ts";
+import { IScene } from "engine/Interfaces/IScene.ts";
 
 if (isDeno()) {
     // @ts-ignore: 
@@ -20,6 +21,7 @@ export interface Source {
 
 export class Loader {
     packBasePath: string = "";
+    packNamespace: string = "";
 
     packSources: Set<Source> = new Set();
     moduleSources: Set<Source> = new Set();
@@ -51,7 +53,7 @@ export class Loader {
             const result = await this.getFileByPath(`${sourceBasePath}/${moduleName}/${FileType.MODULE_INFO}`,
                                                     FileType.MODULE_INFO) as IModuleInfo;
             if (result) {
-                return sourceBasePath + "/" + moduleName + "/";
+                return sourceBasePath + moduleName + "/";
             }
         }
     }
@@ -85,6 +87,15 @@ export class Loader {
     }
 
 
+    getPathFromIdentifier(identifier: string, type: FileType) {
+        const id = identifier.split(":");
+        if (id.length == 1) {
+            return this.getFilePath(this.packNamespace, type, id[0]);
+        }
+        return this.getFilePath(id[0], type, id[1]);
+    }
+
+
     getFilePath(namespace: string, type: FileType, name?: string) {
         const ns = this.namespaces.get(namespace);
         if (!ns) {
@@ -98,6 +109,8 @@ export class Loader {
                     return `${ns}/pack.info`;
                 case FileType.MODULE_INFO:
                     return `${ns}/module.info`;
+                case FileType.SCENE:
+                    return `${ns}/${type}/${name}.json`;
                 default:
                     return `${ns}/${type}/${name}`;
             }
@@ -106,8 +119,8 @@ export class Loader {
 
 
     async getFileByPath(path: string, type: FileType) {
-        const result = await fetch(path).catch(_ => {
-            // console.error(err);
+        const result = await fetch(path).catch(err => {
+            console.error(err);
         }).then(res => {
             if (res?.status == 200) {
                 return res;
@@ -119,20 +132,33 @@ export class Loader {
                 return await result?.json() as IPackInfo;
             case FileType.MODULE_INFO:
                 return await result?.json() as IModuleInfo;
+            case FileType.SCENE:
+                return await result?.json() as IScene;
+            case FileType.HTML:
             default: 
                 return await result?.text();
         }
     }
 
 
-    async getFile(namespace: string, type: FileType.PACK_INFO, name: undefined): Promise<IPackInfo>;
-    async getFile(namespace: string, type: FileType.MODULE_INFO, name: undefined): Promise<IModuleInfo>;
-    async getFile(namespace: string, type: FileType.HTML, name: string): Promise<string>;
-    async getFile(namespace: string, type: FileType, name?: string) {
+    async getFileByNamespace(namespace: string, type: FileType, name?: string) {
         const path = this.getFilePath(namespace, type, name + getFileExtension(type));
         if (!path) {
             return;
         }
         return await this.getFileByPath(path, type);
+    }
+
+
+    async getFile(identifier: string, type: FileType.PACK_INFO): Promise<IPackInfo>;
+    async getFile(identifier: string, type: FileType.MODULE_INFO): Promise<IModuleInfo>;
+    async getFile(identifier: string, type: FileType.SCENE): Promise<IScene>;
+    async getFile(identifier: string, type: FileType.HTML): Promise<string>;
+    async getFile(identifier: string, type: FileType) {
+        const id = identifier.split(":");
+        if (id.length == 1) {
+            return await this.getFileByNamespace(this.packNamespace, type, id[0]);
+        }
+        return await this.getFileByNamespace(id[0], type, id[1]);
     }
 }

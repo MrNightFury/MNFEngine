@@ -18,12 +18,14 @@ export interface SceneObjectEvents {
  */
 export class HTMLObject extends BaseObject {
     DOM = Engine.instance.DOM;
+
     // @ts-ignore:
     private $!: JQuery<HTMLElement>;
-    events = new EventEmitter<SceneObjectEvents>(this);
+    events = new EventEmitter<SceneObjectEvents>(this, true);
 
     constructor(parentSelector: string, tag: string, attributes: Record<string, string>) {
         super();
+
         const text = this.DOM.createTagText(tag, {
             ...attributes,
             id: `${this.constructor.name}_${this.id}`,
@@ -37,13 +39,9 @@ export class HTMLObject extends BaseObject {
         });
 
         if (ENV.deno && !ENV.windowStarted) {
-            this.DOM.emitter.on("pageLoaded", () => {
-                this.exec(`
-                    this.$.click(event => {
-                        runEvent("${this.selector}", { event: "click", ...event});
-                    })
-                `)
-            })
+            this.DOM.emitter.on("pageLoaded", this.setupEventListeners.bind(this));
+        } else if (ENV.deno) {
+            this.setupEventListeners();
         } else {
             this.$ = $(this.selector);
             this.$.click((event: any) => {
@@ -52,6 +50,15 @@ export class HTMLObject extends BaseObject {
         }
     }
 
+    setupEventListeners() {
+        this.exec(`
+            this.$.click(event => {
+                runEvent("objectEvent", { event: "click", object: "${this.selector}"
+                // , ...event
+                });
+            })
+        `)
+    }
 
     get selector() {
         return `#${this.constructor.name}_${this.id}`;
@@ -62,7 +69,6 @@ export class HTMLObject extends BaseObject {
         let functionText = typeof func == "string" ? func : `(${func.toString()})()` ;
         functionText = functionText.replaceAll(/this.\$/g, `$("${this.selector}")`);
         this.DOM.runScript(functionText);
-        console.log("Executed", functionText);
     }
 
 

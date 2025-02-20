@@ -2,6 +2,8 @@ export enum FileType {
     PACK_INFO = "pack.info",
     MODULE_INFO = "module.info",
     HTML = "html",
+    SCENE = "scene",
+    IMAGE = "images",
 }
 
 export enum FileContentType {

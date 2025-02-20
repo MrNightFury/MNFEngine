@@ -1,5 +1,6 @@
 import { Engine } from "engine/Engine.ts";
 
+
 /**
  * Base class for all objects in the engine.
  */
