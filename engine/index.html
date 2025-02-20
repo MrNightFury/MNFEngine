@@ -133,5 +133,30 @@
     </div>
 </body>
     <script src="./js/main.js" type="module"></script>
-    <script>pageLoaded()</script>
+    <script>
+        var ws = new WebSocket("ws://localhost:8080");
+
+        function runEvent(event, data) {
+            sendMessage({
+                event: event,
+                data: data
+            })
+        };
+
+        function sendMessage(message) {
+            ws.send(JSON.stringify(message))
+        }
+
+        ws.onopen = () => {
+            runEvent("pageLoaded");
+        }
+
+        ws.onmessage = (message) => {
+            const data = JSON.parse(message.data);
+            switch (data.event) {
+                case "eval":
+                    eval(data.script);
+            }
+        }
+        </script>
 </html>
