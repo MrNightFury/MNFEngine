@@ -1,16 +1,19 @@
 import { Loader, SourceType } from "engine/Loader.ts";
 import { ModulesManager } from "engine/Modules/ModulesManager.ts";
-import { IPackInfo } from "./Interfaces/IPackInfo.ts";
+import { IPackInfo } from "engine/Interfaces/IPackInfo.ts";
 import { DOM } from "engine/DOM.ts";
 import { Logger } from "misc/Logger.ts";
-import type { BaseObject } from "engine/Objects/BaseObject.ts";
+import { BaseObject } from "engine/Objects/BaseObject.ts";
 import { Registry } from "engine/Registry.ts";
 import { FileType } from "engine/Interfaces/PackFileTypes.ts";
 import { IScene } from "engine/Interfaces/IScene.ts";
+import { EventEmitter } from "engine/EventEmitter.ts";
+import { AudioService, BaseAudioService } from "engine/EngineServices.ts";
 
 
 export class Engine {
     static instance: Engine;
+    audio: AudioService = new BaseAudioService();
 
     packLoaded: boolean = false;
     packInfo?: IPackInfo;
@@ -19,6 +22,7 @@ export class Engine {
     loader = new Loader();
     modulesManager = new ModulesManager(this.loader);
     DOM: DOM;
+    eventEmitter = new EventEmitter(this, false, true);
 
     private lastId: number = 0;
 
@@ -31,11 +35,15 @@ export class Engine {
         this.logger.log("Engine starting...");
         Engine.instance = this;
         this.DOM = new DOM();
+
+        // this.registry.createRegistry("objectClass");
     }
 
+    
     exit() {
         Deno.exit(0);
     }
+
 
     async loadPack(packName: string) {
         this.packInfo = await this.loader.findPack(packName);
@@ -63,8 +71,8 @@ export class Engine {
 
         if (this.packInfo.pfv == 1 || this.packInfo.pfv == undefined) {
             // TODO: compability with old packs
-            // this.modulesManager.loadModule("CompModule");
-            throw new Error("Old pack version not supported");
+            await this.modulesManager.loadModule("CompModule");
+            // throw new Error("Old pack version not supported");
         } else {
             await this.modulesManager.loadModules(this.packInfo.modules);
         }
@@ -94,11 +102,11 @@ export class Engine {
 
         this.logger.log("Creating objects...");
         for (const object of scene.objects) {
-            const objectClass = this.registry.getObjectClass(object.class);
-            if (!objectClass) {
-                this.logger.error(`Object class not found: ${object.class}`);
-            } else {
+            const objectClass = this.registry.objectClasses.get(object.class);
+            if (objectClass) {
                 new objectClass(object);
+            } else {
+                this.logger.error(`Object class not found: ${object.class}`);
             }
         }
     }

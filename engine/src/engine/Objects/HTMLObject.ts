@@ -14,7 +14,7 @@ export interface SceneObjectEvents {
 
 
 /**
- * Represents any object that has HTML representation
+ * Represents any object that has HTML representation. Automatically adds object to DOM.
  */
 export class HTMLObject extends BaseObject {
     DOM = Engine.instance.DOM;
@@ -50,6 +50,7 @@ export class HTMLObject extends BaseObject {
         }
     }
 
+    // TODO rewrite this to catch multiple events and "in code" instead of `string`
     setupEventListeners() {
         this.exec(`
             this.$.click(event => {

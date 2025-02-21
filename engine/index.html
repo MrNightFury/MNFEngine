@@ -30,7 +30,7 @@
             function startGame() {
                 $("#main_menu").toggleClass("hidden");
                 $("#game").toggleClass("hidden");
-                console.log("game started");
+                runEvent("globalEvent", "gameStarted");
             }
         </script>
         

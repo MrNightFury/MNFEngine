@@ -1,4 +1,4 @@
-import { GameWindow } from "engine/Window.ts";
+import { GameWindow } from "./engine/EngineServices.ts";
 
 declare global {
     var ENV: ENV;

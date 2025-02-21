@@ -24,6 +24,7 @@
     "@webview/webview": "jsr:@webview/webview@^0.8.1",
     "engine/": "./src/engine/",
     "misc/": "./src/misc/",
-    "esbuild": "npm:esbuild@^0.24.0"
+    "esbuild": "npm:esbuild@^0.24.0",
+    "window/": "./src/HTMLWindow/"
   }
 }

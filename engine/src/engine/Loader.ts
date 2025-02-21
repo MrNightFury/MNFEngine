@@ -1,7 +1,7 @@
 import { isDeno } from "../Environment.ts";
-import { FileType, getFileExtension } from "./Interfaces/PackFileTypes.ts";
-import type { IPackInfo } from "./Interfaces/IPackInfo.ts";
-import type { IModuleInfo } from "./Interfaces/IModuleInfo.ts";
+import { FileType, getFileExtension } from "engine/Interfaces/PackFileTypes.ts";
+import type { IPackInfo } from "engine/Interfaces/IPackInfo.ts";
+import type { IModuleInfo } from "engine/Interfaces/IModuleInfo.ts";
 import { IScene } from "engine/Interfaces/IScene.ts";
 
 if (isDeno()) {
@@ -18,6 +18,8 @@ export interface Source {
     basePath: string;
     type: SourceType;
 }
+
+export type identifier = `\w+:\w+`;
 
 export class Loader {
     packBasePath: string = "";
@@ -97,7 +99,7 @@ export class Loader {
 
 
     getFilePath(namespace: string, type: FileType, name?: string) {
-        const ns = this.namespaces.get(namespace);
+        const ns = this.namespaces.get(namespace)?.replaceAll("\\", "/");
         if (!ns) {
             console.error("Namespace not found: " + namespace);
             return;
@@ -150,6 +152,11 @@ export class Loader {
     }
 
 
+    /**
+     * Loads a files content from a given identifier
+     * @param identifier file identifier in the format of `namespace:filename` or `filename` if from current pack namespace
+     * @param type 
+     */
     async getFile(identifier: string, type: FileType.PACK_INFO): Promise<IPackInfo>;
     async getFile(identifier: string, type: FileType.MODULE_INFO): Promise<IModuleInfo>;
     async getFile(identifier: string, type: FileType.SCENE): Promise<IScene>;

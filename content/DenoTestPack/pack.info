@@ -1,8 +1,8 @@
 {
     "name": "DenoTestPack",
-    "defaultScene": "testSeaScene",
+    "defaultScene": "testScene",
     "pfv": 2,
     "modules": [
-        "BaseInventory", "CoreModule"
+        "CoreModule", "InternalModule"
     ]
 }

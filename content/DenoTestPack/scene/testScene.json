@@ -1,0 +1,12 @@
+{
+    "name": "Test scene",
+    "background": "testSeaScene_bg.jpg",
+    "objects": [
+        {
+            "class": "image",
+            "src": "https://via.placeholder.com/150",
+            "x": 0,
+            "y": 200
+        }
+    ]
+}

@@ -20,7 +20,7 @@ if (ENV.deno) {
     logger.log("Running in Deno...");
     // const Window = (await import("./engine/Window.ts")).Window;
 
-    const WebviewWindow = new (await import("./Window/WebviewWindowAdapter.ts")).WebviewWindowAdapter;
+    const WebviewWindow = new (await import("./HTMLWindow/WebviewWindowAdapter.ts")).WebviewWindowAdapter;
 
     ENV.window = WebviewWindow;
 

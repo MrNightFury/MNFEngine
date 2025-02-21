@@ -1,7 +1,8 @@
-import { GameWindow } from "engine/Window.ts";
+import { GameWindow } from "../engine/EngineServices.ts";
 import { Logger } from "misc/Logger.ts";
 import { EventEmitter } from "engine/EventEmitter.ts";
 import { Engine } from "engine/Engine.ts";
+import { WebviewAudioService } from "window/WebviewAudioService.ts";
 
 export class WebviewWindowAdapter implements GameWindow {
     private logger: Logger = new Logger(this);
@@ -27,7 +28,9 @@ export class WebviewWindowAdapter implements GameWindow {
                 if (data.event == "pageLoaded" && ENV.deno) {
                     ENV.windowStarted = true;
                     Engine.instance.DOM.onPageLoaded();
-                } else {
+                } else if (data.event == "globalEvent") {
+                    Engine.instance.eventEmitter.emit(data.data, {});
+                } else{
                     this.eventEmitter.parseEvent(data.data);
                     Engine.instance.DOM.emitter.parseEvent(data.data);
                 }
@@ -60,6 +63,9 @@ export class WebviewWindowAdapter implements GameWindow {
         this.eventEmitter.on("closed", () => {
             Engine.instance.exit();
         })
+
+
+        Engine.instance.audio = new WebviewAudioService(Engine.instance);
     }
 
     // deno-lint-ignore ban-types
@@ -97,6 +103,5 @@ export class WebviewWindowAdapter implements GameWindow {
             event: "eval",
             script: script
         }))
-        // this.runWebviewMethod("eval", script);
     }
 }

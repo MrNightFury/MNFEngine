@@ -4,21 +4,28 @@ export enum FileType {
     HTML = "html",
     SCENE = "scene",
     IMAGE = "images",
+    AUDIO = "audio",
 }
 
 export enum FileContentType {
     JSON = "JSON",
-    TEXT = "TEXT"
+    TEXT = "TEXT",
+    BIN = "BIN"
 }
 
 export function getFileContentType(type: FileType): FileContentType {
     switch (type) {
         case FileType.PACK_INFO:
         case FileType.MODULE_INFO:
+        case FileType.SCENE:
             return FileContentType.JSON;
         
         case FileType.HTML:
             return FileContentType.TEXT;
+
+        case FileType.IMAGE:
+        case FileType.AUDIO:
+            return FileContentType.BIN;
 
         default:
             return FileContentType.TEXT;

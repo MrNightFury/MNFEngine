@@ -1,19 +1,9 @@
 // deno-lint-ignore-file ban-types
-// @ts-ignore:
-import { Webview } from "@webview/webview";
-// @ts-ignore:
-import * as path from "https://deno.land/std@0.224.0/path/mod.ts";
-import { Engine } from "engine/Engine.ts";
 import { EventEmitter } from "engine/EventEmitter.ts";
+import { Engine } from "engine/Engine.ts";
+import { Logger } from "misc/Logger.ts";
 
 
-// export declare interface Window {
-//     navigate(url: string): void;
-//     run(): void;
-//     // deno-lint-ignore ban-types
-//     bind(event: string, callback: Function): void;
-//     eval(script: string): void;
-// }
 
 export interface GameWindow {
     eventEmitter: EventEmitter<Record<string, any>>;
@@ -25,6 +15,39 @@ export interface GameWindow {
     eval(script: string): void;
 }
 
+export interface AudioService {
+    playSound(identifier: string): void;
+    setBackgrountMusic(identifier: string): void;
+    playRandomSound(identifier: string, range: number): void;
+    playRandomSequence(baseIdentifier: string, range: number, count: number, interval: number): void;
+}
+
+export class BaseService {
+    logger = new Logger(this);
+
+    constructor(public engine: Engine) {
+
+    }
+}
+
+
+export class BaseAudioService implements AudioService {
+    playSound(_: string) {
+        throw new Error("Method not implemented.");
+    }
+    setBackgrountMusic(_: string) {
+        throw new Error("Method not implemented.");
+    }
+    playRandomSound(_0: string, _1: number) {
+        throw new Error("Method not implemented.");
+    }
+    playRandomSequence(_0: string, _1: number, _2: number, _3: number) {
+        throw new Error("Method not implemented.");
+    }
+}
+
+
+/*
 export class Window extends Webview {
     // @ts-ignore:
     ffi = Deno.dlopen("C:\\Windows\\System32\\user32.dll", {
@@ -59,4 +82,4 @@ export class Window extends Webview {
     moveWindow(x: number, y: number) {
         this.ffi.MoveWindow(this.ffi.GetForegroundWindow(), x, y, 800, 600, 1);
     }
-}
+}*/
