@@ -32,6 +32,10 @@ export class EventEmitter<T extends Record<string, any>>{
     }
 
     emit<K extends keyof T>(event: string, data: T[K]) {
+        if (this.debug) {
+            this.logger.log("emit", event, data ? data.event : null);
+        }
+        
         if (this.runEventsOnParent) {
             const eventName = 'on' + event.charAt(0).toUpperCase() + event.slice(1);
             if (this.parent[eventName] && this.parent[eventName] instanceof Function) {
@@ -45,10 +49,6 @@ export class EventEmitter<T extends Record<string, any>>{
         this.listeners.get(event)?.forEach((listener) => {
             listener(data);
         });
-
-        if (this.debug) {
-            this.logger.log("emit", event, data ? data.event : null);
-        }
     }
 
     parseEvent<K extends keyof T>(event: {event: string} & T[K]) {
