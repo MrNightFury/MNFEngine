@@ -1,8 +1,9 @@
+import { Engine } from "engine/Engine.ts";
 import { AudioService, BaseService } from "engine/EngineServices.ts";
 import { FileType } from "engine/Interfaces/PackFileTypes.ts";
 
 import { inview } from "./RunInView.ts";
-import { Engine } from "engine/Engine.ts";
+
 
 
 declare global {
@@ -53,7 +54,8 @@ export class WebviewAudioService extends BaseService implements AudioService {
     playRandomSound(baseIdentifier: string, range: number): void {
         const filenameParts = baseIdentifier.split(".")
         const path = Engine.instance.loader.getPathFromIdentifier(
-            filenameParts[0] + "_" + Math.floor(Math.random() * (range + 1)) + "." + filenameParts[1], FileType.AUDIO);
+            filenameParts[0] + "_" + Math.floor(Math.random() * (range + 1)) + "." + filenameParts[1]
+        , FileType.AUDIO);
             
         if (!path) {
             this.logger.error(`Sound not found: ${baseIdentifier}`);
@@ -63,7 +65,7 @@ export class WebviewAudioService extends BaseService implements AudioService {
     }
 
     /**
-     * 
+     * Plays a sequence of random sounds
      * @param baseIdentifier 
      * @param range last sound index (inclusive, starts from 0)
      * @param count 

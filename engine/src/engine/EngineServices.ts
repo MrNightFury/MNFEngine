@@ -1,4 +1,4 @@
-// deno-lint-ignore-file ban-types
+// deno-lint-ignore-file ban-types no-explicit-any
 import { EventEmitter } from "engine/EventEmitter.ts";
 import { Engine } from "engine/Engine.ts";
 import { Logger } from "misc/Logger.ts";
@@ -48,41 +48,3 @@ export class BaseAudioService implements AudioService {
         throw new Error("Method not implemented.");
     }
 }
-
-
-/*
-export class Window extends Webview {
-    // @ts-ignore:
-    ffi = Deno.dlopen("C:\\Windows\\System32\\user32.dll", {
-        "MoveWindow": { parameters: ["pointer", "i32", "i32", "i32", "i32", "i32"], result: "i32" },
-        "GetForegroundWindow": { parameters: [], result: "pointer" },
-    }).symbols;
-
-    engine = Engine.instance;
-
-    constructor(debug: boolean) {
-        super(debug);
-        this.bind("pageLoaded", () => {
-            if (ENV.deno) {
-                ENV.windowStarted = true;
-                this.engine.DOM.onPageLoaded();
-            }
-        });
-    }
-
-    runScript(funct: Function | string) {
-        if (typeof funct === "string") {
-            this.eval(funct);
-        } else {
-            this.eval(`(${funct.toString()})()`);
-        }
-    }
-
-    openLocal(filePath: string) {
-        this.navigate("file://" + path.resolve(filePath));
-    }
-
-    moveWindow(x: number, y: number) {
-        this.ffi.MoveWindow(this.ffi.GetForegroundWindow(), x, y, 800, 600, 1);
-    }
-}*/

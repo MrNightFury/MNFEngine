@@ -1,9 +1,9 @@
-import { GameWindow } from "./engine/EngineServices.ts";
+// deno-lint-ignore-file no-explicit-any
+import { GameWindow } from "engine/EngineServices.ts";
 
 declare global {
     var ENV: ENV;
     // @ts-ignore:
-    // deno-lint-ignore no-explicit-any
     var $: any;
 
     var runEvent: (event: string, data: any) => void;

@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-export type ObjectParameters = {
+export interface ObjectParameters {
     class: string;
-} & Record<string, any>;
+}

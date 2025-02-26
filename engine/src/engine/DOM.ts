@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { Logger } from "../misc/Logger.ts";
+import { Logger } from "misc/Logger.ts";
 import { EventEmitter } from "engine/EventEmitter.ts";
 import { Engine } from "engine/Engine.ts";
 
@@ -17,6 +17,7 @@ export class DOM {
         this.emitter.eventNameField = "object"
     }
 
+
     /**
      * Append HTML to the body of the window.
      * It is safe to use this method before the window is started, it will buffer the HTML and append it when the window is started
@@ -33,6 +34,7 @@ export class DOM {
             document.body.innerHTML += html;
         }
     }
+
 
     onPageLoaded() {
         this.logger.log("Page loaded!");
@@ -62,6 +64,7 @@ export class DOM {
         this.emitter.emit("pageLoaded", null);
     }
 
+
     addInviewOnClickEvent(selector: string, callback: () => void) {
         if (ENV.deno) {
             ENV.window.runScript(`
@@ -76,10 +79,6 @@ export class DOM {
         }
     }
 
-    // addOnClickCallback(selector: string, callback: () => void) {
-    //     this.runScript(`$(${selector}).click(() =>)`);
-    // }
-    
 
     runScript(func: (() => void) | string) {
         if (ENV.deno) {
@@ -92,6 +91,7 @@ export class DOM {
             }
         }
     }
+
 
     createTagText(tag: string, attributes: Record<string, string>) {
         let text = Object.entries(attributes).map(item => `${item[0]}="${item[1]}"`).join(" ");

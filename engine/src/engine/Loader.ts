@@ -4,6 +4,7 @@ import type { IPackInfo } from "engine/Interfaces/IPackInfo.ts";
 import type { IModuleInfo } from "engine/Interfaces/IModuleInfo.ts";
 import { IScene } from "engine/Interfaces/IScene.ts";
 
+
 if (isDeno()) {
     // @ts-ignore: 
     var path = await import("jsr:@std/path");

@@ -30,3 +30,23 @@ export function getInviewFunction<ARGS extends any[]>(target: (this: any, ...arg
         }
     }
 }
+
+export function inview<T extends HTMLObject>(target: (this: T | any, ...args: any[]) => any, _ctx: ClassMethodDecoratorContext) {
+    return getInviewFunction(target);
+}
+
+// class test {
+//     @inview
+//     test(a: string, b: number) {
+//         console.log(a, b);
+//     }
+// }
+
+// function runEvent(event: string, data: any) {
+//     console.log("Event", event, data);
+// }
+
+
+
+// const text = "console.log('text')";
+// getInviewFunction((text) => eval(text))(text)

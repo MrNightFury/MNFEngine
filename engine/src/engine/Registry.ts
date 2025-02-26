@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { BaseObject } from "engine/Objects/BaseObject.ts";
 import { Constructor } from "misc/TypeHelpers.ts";
 
