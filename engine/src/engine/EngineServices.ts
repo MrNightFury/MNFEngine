@@ -22,12 +22,15 @@ export interface AudioService {
     playRandomSequence(baseIdentifier: string, range: number, count: number, interval: number): void;
 }
 
+export interface SavingService {
+    saveRecord(key: string, value: any): void;
+    loadRecord(key: string): any;
+}
+
 export class BaseService {
-    logger = new Logger(this);
+    private logger = new Logger(this);
 
-    constructor(public engine: Engine) {
-
-    }
+    constructor(private engine: Engine) {}
 }
 
 
