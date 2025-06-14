@@ -1,0 +1,1 @@
+export { InventoryModule } from "./HTMLModule.ts";
