@@ -6,7 +6,18 @@
             "class": "image",
             "src": "https://via.placeholder.com/150",
             "x": 0,
-            "y": 200
+            "y": 200,
+            "interaction": [{
+                "type": "runCode",
+                "code": "console.log('Hello world in main stream')",
+                "inview": false
+            }, {
+                "type": "runCode",
+                "code": "console.log('Hello world in view')",
+                "inview": true
+            }]
+        }, {
+            "class": "player"
         }
     ]
 }

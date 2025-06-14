@@ -1,0 +1,7 @@
+{
+    "name": "InternalModule",
+    "entryPoints": {
+        "deno": "./src/index.ts"
+    },
+    "namespace": "internal"
+}
