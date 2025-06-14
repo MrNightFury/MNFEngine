@@ -1,0 +1,1 @@
+export { CompModule } from "./CompModule.ts";

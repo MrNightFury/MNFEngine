@@ -1,0 +1,8 @@
+{
+    "name": "CompModule",
+    "entryPoints": {
+        "deno": "./src/index.ts"
+    },
+    "namespace": "comp",
+    "dependencies": [ "BaseInventory" ]
+}
