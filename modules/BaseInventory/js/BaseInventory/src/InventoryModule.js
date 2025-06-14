@@ -1,5 +1,5 @@
 import { Module } from "engine/Modules/Module.js";
-import { FileType } from "engine/interfaces/PackFileTypes.js";
+import { FileType } from "../../../../../engine/src/engine/Interfaces/PackFileTypes.ts";
 export class InventoryModule extends Module {
     pageLoaded() {
         throw new Error("Method not implemented.");
