@@ -39,11 +39,4 @@ export class Player extends SceneObject {
             this.move(1, 0);
         })
     }
-
-    // @on(coreModule.controls.eventEmitter, { key: "w", state: coreModule.exports.KeyState.HOLD })
-    // moveUp() {
-    //     console.log("W is pressed");
-    // }
-
-    
 }

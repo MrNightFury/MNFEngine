@@ -123,6 +123,7 @@ export class Loader {
 
     async getFileByPath(path: string, type: FileType) {
         const result = await fetch(path).catch(err => {
+            console.error(`Error fetching file from path: ${path}`);
             console.error(err);
         }).then(res => {
             if (res?.status == 200) {

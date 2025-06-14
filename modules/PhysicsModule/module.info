@@ -1,0 +1,7 @@
+{
+    "name": "TemplateModule",
+    "entryPoints": {
+        "deno": "./index.ts"
+    },
+    "namespace": "template"
+}

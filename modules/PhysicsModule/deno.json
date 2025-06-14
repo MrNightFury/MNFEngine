@@ -1,0 +1,26 @@
+{
+  "unstable": [
+    "sloppy-imports"
+  ],
+  "lint": {
+    "rules": {
+      "exclude": ["no-var", "no-sloppy-imports", "no-inner-declarations"]
+    }
+  },
+  "compilerOptions": {
+    "strict": true,
+    "lib": [
+      "deno.window",
+      "dom",
+      "deno.ns"
+    ]
+  },
+  "tasks": {
+    "buildRust": "wasm-pack build --target web ./wasm_module",
+    "build": "deno run --allow-all ./switchExt.ts js && tsc && deno run --allow-all ./switchExt.ts ts"
+  },
+  "imports": {
+    "engine/": "./../../engine/src/engine/",
+    "esbuild": "npm:esbuild@^0.24.0"
+  }
+}

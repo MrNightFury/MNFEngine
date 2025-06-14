@@ -3,6 +3,6 @@
     "defaultScene": "testScene",
     "pfv": 2,
     "modules": [
-        "CoreModule", "InternalModule"
+        "CoreModule", "InternalModule", "PhysicsModule"
     ]
 }

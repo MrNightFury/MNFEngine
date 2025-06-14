@@ -24,5 +24,8 @@
             ],
             "url": "./.vscode/schemas/moduleinfo.json"
         }
+    ],
+    "rust-analyzer.linkedProjects": [
+        "./modules/PhysicsModule/wasm_module/Cargo.toml"
     ]
 }
