@@ -1,7 +1,6 @@
 import { Loader, SourceType } from "engine/Loader.ts";
 import { ModulesManager } from "engine/Modules/ModulesManager.ts";
 import { IPackInfo } from "engine/Interfaces/IPackInfo.ts";
-import { DOM } from "engine/DOM.ts";
 import { Logger } from "misc/Logger.ts";
 import { BaseObject } from "engine/Objects/BaseObject.ts";
 import { Registry } from "engine/Registry.ts";
@@ -9,6 +8,8 @@ import { FileType } from "engine/Interfaces/PackFileTypes.ts";
 import { IScene } from "engine/Interfaces/IScene.ts";
 import { EventEmitter } from "engine/EventEmitter.ts";
 import { AudioService, BaseAudioService } from "engine/EngineServices.ts";
+import { DOM } from "engine/PlatformSpecific/DOM.ts";
+
 
 
 export class Engine {
@@ -22,7 +23,7 @@ export class Engine {
     loader = new Loader();
     modulesManager = new ModulesManager(this.loader);
     DOM: DOM;
-    eventEmitter = new EventEmitter(this, false, true);
+    eventEmitter = new EventEmitter(this, false, false);
 
     private lastId: number = 0;
 

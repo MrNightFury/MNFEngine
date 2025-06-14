@@ -20,7 +20,7 @@ export class HTMLObject extends BaseObject {
     DOM = Engine.instance.DOM;
 
     // @ts-ignore:
-    private $!: JQuery<HTMLElement>;
+    protected $!: JQuery<HTMLElement>;
     events = new EventEmitter<SceneObjectEvents>(this, true);
 
     constructor(parentSelector: string, tag: string, attributes: Record<string, string>) {

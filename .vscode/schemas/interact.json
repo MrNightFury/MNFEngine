@@ -3,7 +3,7 @@
     "properties": {
         "type": {
             "type": "string",
-            "enum": ["take", "function", "text", "changeScene", "spawn", "delete", "playSound"]
+            "enum": ["take", "function", "text", "changeScene", "spawn", "delete", "playSound", "runCode"]
         }
     },
     "required": ["type"],
@@ -72,5 +72,18 @@
             }
         },
         "required": ["sound"]
+    }, {
+        "properties": {
+            "type": {
+                "const": "runCode"
+            },
+            "code": {
+                "type": "string"
+            },
+            "inview": {
+                "type": "boolean"
+            }
+        },
+        "required": ["code", "inview"]
     }]
 }

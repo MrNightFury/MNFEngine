@@ -25,7 +25,7 @@ export class SceneObject extends HTMLObject{
         super("#scene_items_container", tag, {
             ...attributes,
             style: `${attributes.style}; bottom: ${position.y}px; left: ${position.x}px;`,
-            class: attributes.style ? `${attributes.style} SceneObject` : "SceneObject"
+            class: attributes.class ? `${attributes.class} SceneObject` : "SceneObject"
         });
     }
 }

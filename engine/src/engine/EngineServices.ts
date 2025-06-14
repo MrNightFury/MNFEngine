@@ -22,15 +22,16 @@ export interface AudioService {
     playRandomSequence(baseIdentifier: string, range: number, count: number, interval: number): void;
 }
 
-export interface SavingService {
-    saveRecord(key: string, value: any): void;
-    loadRecord(key: string): any;
+export interface StorageService {
+    save<T>(key: string, value: T): void;
+    load<T>(key: string): T | undefined;
+    remove(key: string): void;
 }
 
 export class BaseService {
-    private logger = new Logger(this);
+    protected logger = new Logger(this);
 
-    constructor(private engine: Engine) {}
+    constructor(protected engine: Engine) {}
 }
 
 

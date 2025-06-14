@@ -22,17 +22,17 @@ export class WebviewWindowAdapter implements GameWindow {
             };
         
             socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                this.logger.log("WS message: ", data);
+                const message = JSON.parse(event.data);
+                // this.logger.log("WS message: ", message);
 
-                if (data.event == "pageLoaded" && ENV.deno) {
+                if (message.event == "pageLoaded" && ENV.deno) {
                     ENV.windowStarted = true;
                     Engine.instance.DOM.onPageLoaded();
-                } else if (data.event == "globalEvent") {
-                    Engine.instance.eventEmitter.emit(data.data, {});
+                } else if (message.event == "globalEvent") {
+                    Engine.instance.eventEmitter.parseEvent(message.data);
                 } else{
-                    this.eventEmitter.parseEvent(data.data);
-                    Engine.instance.DOM.emitter.parseEvent(data.data);
+                    this.eventEmitter.parseEvent(message.data);
+                    Engine.instance.DOM.emitter.parseEvent(message.data);
                 }
             };
         

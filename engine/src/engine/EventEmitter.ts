@@ -20,7 +20,11 @@ export class EventEmitter<T extends Record<string, any>>{
         this.debug = debug;
     }
 
-    on<K extends keyof T>(event: K, listener: (data: T[K]) => void) {
+    on<K extends keyof T>(event: K | string | any, listener: (data: T[K]) => void) {
+        if (typeof event !== "string") {
+            event = JSON.stringify(event);
+        }
+
         if (!this.listeners.has(event)) {
             this.listeners.set(event, []);
         }
@@ -31,9 +35,13 @@ export class EventEmitter<T extends Record<string, any>>{
         }
     }
 
-    emit<K extends keyof T>(event: string, data: T[K]) {
+    emit<K extends keyof T>(event: any, data?: T[K]) {
+        if (typeof event !== "string") {
+            event = JSON.stringify(event);
+        }
+
         if (this.debug) {
-            this.logger.log("emit", event, data ? data.event : null);
+            this.logger.log("emit", event, data ? data : null);
         }
         
         if (this.runEventsOnParent) {
@@ -53,5 +61,13 @@ export class EventEmitter<T extends Record<string, any>>{
 
     parseEvent<K extends keyof T>(event: {event: string} & T[K]) {
         this.emit(event[this.eventNameField], event);
+    }
+}
+
+export function on(emitter: EventEmitter<any>, event: string | any) {
+    return function (target: any, context: ClassMethodDecoratorContext) {
+        return function (this: any, ...args: any[]) {
+            emitter.on(event, target.call(this, ...args));
+        }
     }
 }
