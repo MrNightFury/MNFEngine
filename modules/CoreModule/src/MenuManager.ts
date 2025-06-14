@@ -6,7 +6,7 @@ export abstract class Menu {
     menuManager: MenuModule;
 
     constructor() {
-        this.menuManager = Engine.instance.modulesManager.getModule<MenuModule>("MenuModule") as MenuModule;
+        this.menuManager = Engine.instance.modulesManager.getModule<MenuModule>("MenuModule")!;
         this.id = this.menuManager.getNextId()
     }
 }

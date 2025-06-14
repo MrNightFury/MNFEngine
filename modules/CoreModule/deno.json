@@ -20,6 +20,8 @@
   },
   "imports": {
     "engine/": "./../../engine/src/engine/",
-    "esbuild": "npm:esbuild@^0.24.0"
+    "misc/": "./../../engine/src/misc/",
+    "esbuild": "npm:esbuild@^0.24.0",
+    "window/": "./../../engine/src/HTMLWindow/"
   }
 }
