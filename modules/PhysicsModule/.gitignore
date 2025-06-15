@@ -1,2 +1,3 @@
 wasm_module/target
 wasm_module/Cargo.lock
+deno.lock
