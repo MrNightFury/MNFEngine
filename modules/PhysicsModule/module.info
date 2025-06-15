@@ -3,5 +3,5 @@
     "entryPoints": {
         "deno": "./index.ts"
     },
-    "namespace": "template"
+    "namespace": "physics"
 }

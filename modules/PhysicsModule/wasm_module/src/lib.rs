@@ -1,11 +1,13 @@
 use std::collections::{ HashMap, HashSet};
-use wasm_bindgen::prelude::*;
+use wasm_bindgen::prelude::{ wasm_bindgen, JsValue };
 
 use crate::colliders::*;
 use crate::math::*;
+use crate::collisions_buffer::*;
 
 mod colliders;
 mod math;
+mod collisions_buffer;
 
 
 #[wasm_bindgen]
@@ -13,20 +15,14 @@ pub fn test() {
     println!("WASM module loaded successfully!");
 }
 
-#[wasm_bindgen]
-#[derive(PartialEq, Eq, Hash)]
-pub enum CollisionEvent {
-    Enter,
-    Exit,
-    Update,
-}
 
 #[wasm_bindgen]
 pub struct World {
     colliders: HashMap<u32, colliders::Collider>,
     current_collisions: HashSet<(u32, u32)>,
 
-    collision_handlers: HashMap<(CollisionEvent, u32), Vec<js_sys::Function>>,
+    required_events: HashSet<(CollisionEventType, u32)>,
+    events_buffer: CollisionsBuffer,
 }
 
 #[wasm_bindgen]
@@ -36,13 +32,24 @@ impl World {
         World {
             colliders: HashMap::new(),
             current_collisions: HashSet::new(),
-            collision_handlers: HashMap::new(),
+
+            required_events: HashSet::new(),
+            events_buffer: CollisionsBuffer::new(),
         }
     }
 
-    pub fn add_collision_handler(&mut self, event: CollisionEvent, collider_id: u32, handler: js_sys::Function) {
+    pub fn get_events_buffer_ptr(&self) -> *const u32 {
+        self.events_buffer.ptr()
+    }
+    pub fn get_events_buffer_len(&self) -> usize {
+        self.events_buffer.len()
+    }
+
+    pub fn add_collision_handler(&mut self, event: CollisionEventType, collider_id: u32) {
         let key = (event, collider_id);
-        self.collision_handlers.entry(key).or_default().push(handler);
+        if !self.required_events.contains(&key) {
+            self.required_events.insert(key);
+        }
     }
 
     pub fn add_collider(&mut self, id: u32, collider_type: ColliderType, position: Float2, params: JsValue) {
@@ -56,6 +63,7 @@ impl World {
                 self.add_rectangle(id, position, position.x, position.y);
             }
         }
+        self.update_collisions(id);
     }
 
     pub fn add_circle(&mut self, id: u32, position: Float2, radius: f32) {
@@ -97,6 +105,18 @@ impl World {
                     rectangle.position = new_position;
                 }
             }
+            self.update_collisions(id);
+        }
+    }
+
+    pub fn tick(&mut self) {
+        for (id1, id2) in &self.current_collisions {
+            if self.required_events.contains(&(CollisionEventType::Update, *id1)) {
+                self.events_buffer.add(CollisionEventType::Update, *id1, *id2);
+            }
+            if self.required_events.contains(&(CollisionEventType::Update, *id2)) {
+                self.events_buffer.add(CollisionEventType::Update, *id2, *id1);
+            }
         }
     }
 
@@ -117,17 +137,13 @@ impl World {
 
             if collision && !self.current_collisions.contains(&pair) {
                 self.current_collisions.insert(pair);
-                if let Some(handlers) = self.collision_handlers.get(&(CollisionEvent::Enter, id)) {
-                    for handler in handlers {
-                        let _ = handler.call1(&JsValue::NULL, &serde_wasm_bindgen::to_value(&pair).unwrap());
-                    }
+                if self.required_events.contains(&(CollisionEventType::Enter, id)) {
+                    self.events_buffer.add(CollisionEventType::Enter, id, *other_id);
                 }
             } else if !collision && self.current_collisions.contains(&pair) {
                 self.current_collisions.remove(&pair);
-                if let Some(handlers) = self.collision_handlers.get(&(CollisionEvent::Exit, id)) {
-                    for handler in handlers {
-                        let _ = handler.call1(&JsValue::NULL, &serde_wasm_bindgen::to_value(&pair).unwrap());
-                    }
+                if self.required_events.contains(&(CollisionEventType::Exit, id)) {
+                    self.events_buffer.add(CollisionEventType::Exit, id, *other_id);
                 }
             }
         }
