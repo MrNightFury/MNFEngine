@@ -1,0 +1,47 @@
+import init, { World, InitOutput, CollisionEventType } from "../wasm_module/pkg/wasm_module.js";
+import { Module } from "engine/Modules/Module.ts";
+
+
+interface CollisionEvent {
+    eventType: CollisionEventType;
+    colliderId: number;
+    otherColliderId: number;
+}
+
+export class PhysicsModule extends Module {
+    override name = "PhysicsModule";
+
+    public world!: World;
+    public wasm!: InitOutput;
+
+    override async pageLoaded() {
+        
+    }
+
+    constructor() {
+        super();
+    }
+
+    tick() {
+        this.world.tick();
+        const ptr = this.world.get_events_buffer_ptr();
+        const len = this.world.get_events_buffer_len();
+        const raw = new Uint32Array(this.wasm.memory.buffer, ptr, len * 3);
+
+        for (let i = 0; i < len; i++) {
+            const event: CollisionEvent = {
+                eventType: raw[i * 3] as CollisionEventType,
+                colliderId: raw[i * 3 + 1],
+                otherColliderId: raw[i * 3 + 2]
+            };
+
+            this.logger.log("Collision Event:", event);
+        }
+    }
+
+    async load() {
+        this.logger.log("WASM Module loading...");
+        this.wasm = await init();
+        this.world = new World();
+    }
+}

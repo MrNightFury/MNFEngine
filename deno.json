@@ -1,5 +1,7 @@
 {
     "tasks": {
-        "build": "cd engine && deno task build && cd ../modules/BaseInventory && deno task build && cd ../CoreModule && deno task build && cd ../GameModule && deno task build && cd ../InventoryModule && deno task build && cd ../PlayerModule && deno task build && cd ../WorldModule && deno task build"
+        "build": "cd engine && deno task build && cd ../modules/BaseInventory && deno task build && cd ../CoreModule && deno task build && cd ../GameModule && deno task build && cd ../InventoryModule && deno task build && cd ../PlayerModule && deno task build && cd ../WorldModule && deno task build",
+        "buildRust": "cd modules/PhysicsModule && deno run buildRust",
+        "run": "cd engine && deno run run"
     }
 }
