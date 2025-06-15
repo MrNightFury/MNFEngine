@@ -3,6 +3,7 @@ import { FileType, getFileExtension } from "engine/Interfaces/PackFileTypes.ts";
 import type { IPackInfo } from "engine/Interfaces/IPackInfo.ts";
 import type { IModuleInfo } from "engine/Interfaces/IModuleInfo.ts";
 import { IScene } from "engine/Interfaces/IScene.ts";
+import { Logger } from "misc/Logger.ts";
 
 
 if (isDeno()) {
@@ -30,6 +31,8 @@ export class Loader {
     moduleSources: Set<Source> = new Set();
 
     namespaces: Map<string, string> = new Map();
+
+    logger = new Logger(this);
 
 
     constructor() {
@@ -122,9 +125,8 @@ export class Loader {
 
 
     async getFileByPath(path: string, type: FileType) {
-        const result = await fetch(path).catch(err => {
-            console.error(`Error fetching file from path: ${path}`);
-            console.error(err);
+        const result = await fetch(path).catch(_ => {
+            this.logger.warn(`Error fetching file from path: ${path}`);
         }).then(res => {
             if (res?.status == 200) {
                 return res;
