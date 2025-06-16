@@ -1,0 +1,1 @@
+export { DebugModule as TemplateModule } from "./DebugModule.ts";

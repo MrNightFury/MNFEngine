@@ -1,0 +1,7 @@
+{
+    "name": "DebugModule",
+    "entryPoints": {
+        "deno": "./src/index.ts"
+    },
+    "namespace": "debug"
+}
