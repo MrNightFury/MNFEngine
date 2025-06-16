@@ -12,6 +12,7 @@ export interface Position {
 }
 
 
+
 /**
  * Represents any object that can be added to scene.
  */

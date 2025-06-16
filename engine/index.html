@@ -162,7 +162,6 @@
         }
 
         document.addEventListener("keydown", e => {
-            // console.log("Key down", e)
             runEvent("globalEvent", {
                 event: "keyboardEvent",
                 type: "keyDown",
@@ -175,6 +174,14 @@
                 event: "keyboardEvent",
                 type: "keyUp",
                 key: e.key
+            })
+        })
+
+        window.addEventListener("resize", () => {
+            runEvent("globalEvent", {
+                event: "windowResize",
+                width: window.innerWidth,
+                height: window.innerHeight
             })
         })
         </script>

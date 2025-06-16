@@ -20,6 +20,8 @@ export class CoreModule extends Module {
         // this.engine.DOM.appendBody(containerHTML.replaceAll("$module", this.basePath));
 
         this.engine.registry.objectClasses.register("image", ImageObject);
+
+        
     }
 
     // deno-lint-ignore require-await

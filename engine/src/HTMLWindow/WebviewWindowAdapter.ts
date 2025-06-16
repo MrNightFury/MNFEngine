@@ -1,4 +1,4 @@
-import { GameWindow } from "../engine/EngineServices.ts";
+import { GameWindow } from "engine/EngineServices.ts";
 import { Logger } from "misc/Logger.ts";
 import { EventEmitter } from "engine/EventEmitter.ts";
 import { Engine } from "engine/Engine.ts";

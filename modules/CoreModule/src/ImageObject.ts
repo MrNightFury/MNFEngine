@@ -26,6 +26,7 @@ export class ImageObject extends SceneObject {
 
 
     onClick() {
+        
         // Engine.instance.audio.playRandomSequence("steps/step.wav", 8, 8, 300)
         console.log(Engine.instance.objects.size);
     }
