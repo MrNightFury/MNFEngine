@@ -4,7 +4,7 @@ use std::ops::{ Add, Mul, Sub, Div };
 
 
 #[wasm_bindgen]
-#[derive(Copy, Clone, Deserialize, Serialize)]
+#[derive(Copy, Clone, Deserialize, Serialize, Debug)]
 pub struct Float2 {
     pub x: f32,
     pub y: f32,

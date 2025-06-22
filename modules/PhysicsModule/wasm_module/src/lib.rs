@@ -12,9 +12,17 @@ mod collisions_buffer;
 
 #[wasm_bindgen]
 pub fn test() {
-    println!("WASM module loaded successfully!");
+    log(&"WASM module loaded successfully!");
 }
 
+fn log(s: &str) {
+    let global = js_sys::global();
+    let console = js_sys::Reflect::get(&global, &JsValue::from_str("console")).unwrap();
+    let log_fn = js_sys::Reflect::get(&console, &JsValue::from_str("log")).unwrap();
+
+    let _ = js_sys::Function::from(log_fn)
+        .call1(&JsValue::NULL, &JsValue::from_str(s));
+}
 
 #[wasm_bindgen]
 pub struct World {
@@ -53,6 +61,7 @@ impl World {
     }
 
     pub fn add_collider(&mut self, id: u32, collider_type: ColliderType, position: Float2, params: JsValue) {
+        log(&format!("Adding collider: id={}, type={:?}, position={:?}, params={:?}", id, collider_type, position, params));
         match collider_type {
             colliders::ColliderType::Circle => {
                 let radius = params.as_f64().unwrap_or(0.0) as f32;
@@ -66,7 +75,7 @@ impl World {
         self.update_collisions(id);
     }
 
-    pub fn add_circle(&mut self, id: u32, position: Float2, radius: f32) {
+    fn add_circle(&mut self, id: u32, position: Float2, radius: f32) {
         let circle = colliders::Circle {
             id,
             radius,
@@ -75,7 +84,7 @@ impl World {
         self.colliders.insert(id, Collider::Circle(circle));
     }
 
-    pub fn add_rectangle(&mut self, id: u32, position: Float2, width: f32, height: f32) {
+    fn add_rectangle(&mut self, id: u32, position: Float2, width: f32, height: f32) {
         let rectangle = Rectangle {
             id,
             size: Float2 {
@@ -109,7 +118,7 @@ impl World {
         }
     }
 
-    pub fn tick(&mut self) {
+    pub fn tick(&mut self) -> bool {
         for (id1, id2) in &self.current_collisions {
             if self.required_events.contains(&(CollisionEventType::Update, *id1)) {
                 self.events_buffer.add(CollisionEventType::Update, *id1, *id2);
@@ -118,6 +127,8 @@ impl World {
                 self.events_buffer.add(CollisionEventType::Update, *id2, *id1);
             }
         }
+        log(&format!("Tick: colliders count: {:?}", self.colliders.len()));
+        return true;
     }
 
     pub fn update_collisions(&mut self, id: u32) {

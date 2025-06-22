@@ -52,6 +52,7 @@ pub enum Collider {
 }
 
 #[wasm_bindgen]
+#[derive(Debug)]
 pub enum ColliderType {
     Circle, Rectangle
 }

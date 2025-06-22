@@ -1,5 +1,12 @@
-import init, { World, InitOutput, CollisionEventType } from "../wasm_module/pkg/wasm_module.js";
+import { Engine } from "engine/Engine.ts";
+import init, { World, InitOutput, CollisionEventType, Float2, ColliderType } from "../wasm_module/pkg/wasm_module.js";
 import { Module } from "engine/Modules/Module.ts";
+import type { CoreModule } from "modules/CoreModule/src/mod.ts";
+
+
+const coreModule = Engine.instance.modulesManager.getModule<CoreModule>("CoreModule")!;
+const controls = coreModule.controls;
+const KeyState = coreModule.exports.KeyState;
 
 
 interface CollisionEvent {
@@ -8,11 +15,14 @@ interface CollisionEvent {
     otherColliderId: number;
 }
 
+
 export class PhysicsModule extends Module {
     override name = "PhysicsModule";
 
     public world!: World;
     public wasm!: InitOutput;
+
+    
 
     override async pageLoaded() {
         
@@ -43,5 +53,15 @@ export class PhysicsModule extends Module {
         this.logger.log("WASM Module loading...");
         this.wasm = await init();
         this.world = new World();
+
+        controls.eventEmitter.on({ key: "r", state: KeyState.PRESS}, () => {
+            this.logger.log("DEBUG: PhysicsModule tick");
+            this.tick();
+        });
+
+        this.world.add_collider(1, ColliderType.Circle, new Float2(100, 100), 50);
+        this.world.add_collision_handler(CollisionEventType.Update, 1);
+        this.world.add_collider(2, ColliderType.Circle, new Float2(110, 110), 50);
+        this.world.add_collision_handler(CollisionEventType.Update, 2);
     }
 }
