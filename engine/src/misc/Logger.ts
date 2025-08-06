@@ -2,7 +2,7 @@
 export class Logger {
     label: string;
 
-    constructor(cls: any) {
+    constructor(cls: string | object) {
         if (typeof cls == "string") {
             this.label = cls;
         } else {

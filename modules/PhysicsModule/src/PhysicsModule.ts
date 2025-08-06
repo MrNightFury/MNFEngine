@@ -2,6 +2,7 @@ import { Engine } from "engine/Engine.ts";
 import init, { World, InitOutput, CollisionEventType, Float2, ColliderType } from "../wasm_module/pkg/wasm_module.js";
 import { Module } from "engine/Modules/Module.ts";
 import type { CoreModule } from "modules/CoreModule/src/mod.ts";
+import { ColliderComponent } from "./ColliderComponent.ts";
 
 
 const coreModule = Engine.instance.modulesManager.getModule<CoreModule>("CoreModule")!;
@@ -30,6 +31,9 @@ export class PhysicsModule extends Module {
 
     constructor() {
         super();
+        Engine.instance.eventEmitter.on("tick", () => {
+            this.tick();
+        });
     }
 
     tick() {
@@ -63,5 +67,7 @@ export class PhysicsModule extends Module {
         this.world.add_collision_handler(CollisionEventType.Update, 1);
         this.world.add_collider(2, ColliderType.Circle, new Float2(110, 110), 50);
         this.world.add_collision_handler(CollisionEventType.Update, 2);
+
+        ColliderComponent.world = this.world;
     }
 }

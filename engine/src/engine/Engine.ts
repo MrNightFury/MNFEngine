@@ -30,6 +30,11 @@ export class Engine {
     registry= new Registry();
     objects: Set<BaseObject> = new Set();
     currentScene?: IScene;
+
+    tick = setInterval(() => {
+        this.eventEmitter.emit("tick");
+        this.logger.log("Tick");
+    }, 1000);
     
 
     constructor() {
@@ -78,7 +83,7 @@ export class Engine {
             await this.modulesManager.loadModules(this.packInfo.modules);
         }
 
-        this.loadScene(this.packInfo.defaultScene);
+        await this.loadScene(this.packInfo.defaultScene);
     }
 
 

@@ -3,14 +3,11 @@ import { Engine } from "engine/Engine.ts";
 import { Logger } from "misc/Logger.ts";
 
 
-const logger = new Logger(new (class Main {})());
+const logger = new Logger("Main");
 
 logger.log("Setting up environment...");
 setupEnv();
 
-setInterval(() => {
-    console.log("tick");
-}, 1000);
 
 const engine = new Engine();
 
@@ -20,7 +17,7 @@ if (ENV.deno) {
     logger.log("Running in Deno...");
     // const Window = (await import("./engine/Window.ts")).Window;
 
-    const WebviewWindow = new (await import("./HTMLWindow/WebviewWindowAdapter.ts")).WebviewWindowAdapter;
+    const WebviewWindow = new (await import("window/WebviewWindowAdapter.ts")).WebviewWindowAdapter;
 
     ENV.window = WebviewWindow;
 

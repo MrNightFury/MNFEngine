@@ -119,6 +119,7 @@ impl World {
     }
 
     pub fn tick(&mut self) -> bool {
+        self.events_buffer.clear();
         for (id1, id2) in &self.current_collisions {
             if self.required_events.contains(&(CollisionEventType::Update, *id1)) {
                 self.events_buffer.add(CollisionEventType::Update, *id1, *id2);
