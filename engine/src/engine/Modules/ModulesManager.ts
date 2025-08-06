@@ -35,11 +35,10 @@ export class ModulesManager {
 
         const modulePath = await this.loader.findModule(name);
         if (!modulePath) {
-            this.logger.error("Module not found: " + name);
             throw new Error("Module not found: " + name);
         }
 
-        this.logger.log("Loading module: " + name);
+        // this.logger.log("Loading module: " + name);
 
         // Depency handle
         const moduleInfo = await this.loader.getFileByPath(`${modulePath}/module.info`, FileType.MODULE_INFO) as IModuleInfo;
@@ -67,15 +66,43 @@ export class ModulesManager {
         }
     }
 
+    async parseDepencies(moduleName: string, buffer: string[] = []) {
+        if (buffer.includes(moduleName)) {
+            return;
+        }
+        buffer.push(moduleName);
+        const modulePath = await this.loader.findModule(moduleName);
+        const moduleInfo = await this.loader.getFileByPath(`${modulePath}/module.info`, FileType.MODULE_INFO) as IModuleInfo;
+        for (const dependency of moduleInfo.dependencies || []) {
+            await this.parseDepencies(dependency, buffer);
+        }
+    }
+
     async loadModules(names: string[]) {
+        const deps: string[] = [];
         for (const name of names) {
+            await this.parseDepencies(name, deps);
+        }
+        this.logger.log("Discovered depencies:", deps.join(", "));
+
+        for (const i in deps) {
             try {
-                await this.loadModule(name);
+                this.logger.log(`[${+i + 1}/${deps.length}] Loading module:`, deps[i]);
+                await this.loadModule(deps[i]);
             } catch (e) {
-                this.logger.error("Error loading module: " + name);
+                this.logger.error("Error loading module: " + deps[i]);
                 throw e;
             }
         }
+
+        // for (const name of names) {
+        //     try {
+        //         await this.loadModule(name);
+        //     } catch (e) {
+        //         this.logger.error("Error loading module: " + name);
+        //         throw e;
+        //     }
+        // }
         this.logger.log("Modules loaded.");
         this.logger.log("Registered namespaces: ", this.loader.namespaces);
     }
