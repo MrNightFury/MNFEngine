@@ -16,7 +16,9 @@ export interface Position {
 /**
  * Represents any object that can be added to scene.
  */
-export class SceneObject extends HTMLObject{
+export class SceneObject extends HTMLObject {
+    position: Position;
+
     /**
      * @param tag - HTML tag for object
      * @param position - Object position
@@ -28,5 +30,7 @@ export class SceneObject extends HTMLObject{
             style: `${attributes.style}; bottom: ${position.y}px; left: ${position.x}px;`,
             class: attributes.class ? `${attributes.class} SceneObject` : "SceneObject"
         });
+        
+        this.position = position;
     }
 }
