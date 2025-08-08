@@ -5,6 +5,7 @@ import { FileType } from "engine/Interfaces/PackFileTypes.ts";
 import { IModuleInfo } from "engine/Interfaces/IModuleInfo.ts";
 
 
+
 // deno-lint-ignore no-explicit-any
 function isSubclass(subclass: any, superclass: any): boolean {
     let proto = subclass;
@@ -17,6 +18,7 @@ function isSubclass(subclass: any, superclass: any): boolean {
     return false;
 }
 
+
 export class ModulesManager {
     loadedModules: Map<string, Module> = new Map();
     loader: Loader;
@@ -26,6 +28,7 @@ export class ModulesManager {
     constructor(loader: Loader) {
         this.loader = loader;
     }
+
 
     async loadModule(name: string) {
         if (this.loadedModules.has(name)) {
@@ -37,8 +40,6 @@ export class ModulesManager {
         if (!modulePath) {
             throw new Error("Module not found: " + name);
         }
-
-        // this.logger.log("Loading module: " + name);
 
         // Depency handle
         const moduleInfo = await this.loader.getFileByPath(`${modulePath}/module.info`, FileType.MODULE_INFO) as IModuleInfo;
@@ -66,6 +67,7 @@ export class ModulesManager {
         }
     }
 
+
     async parseDepencies(moduleName: string, buffer: string[] = []) {
         if (buffer.includes(moduleName)) {
             return;
@@ -77,6 +79,7 @@ export class ModulesManager {
             await this.parseDepencies(dependency, buffer);
         }
     }
+
 
     async loadModules(names: string[]) {
         const deps: string[] = [];
@@ -107,6 +110,7 @@ export class ModulesManager {
         this.logger.log("Registered namespaces: ", this.loader.namespaces);
     }
 
+
     // deno-lint-ignore no-explicit-any
     getModule<T extends Module>(ClassType: (new (...args: any[]) => T) | string): T | undefined {
         if (typeof ClassType === "string") {
@@ -115,6 +119,7 @@ export class ModulesManager {
             return this.loadedModules.get(ClassType.name) as T;
         }
     }
+
 
     notifyPageLoaded() {
         for (const module of this.loadedModules.values()) {

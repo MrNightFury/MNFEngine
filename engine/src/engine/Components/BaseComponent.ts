@@ -8,9 +8,11 @@ export class BaseComponent<P extends BaseObject = BaseObject> {
         this.setParent(parent);
     }
 
+
     destroy() {
 
     }
+
 
     setParent(parent: P): void {
         this.parent = parent;

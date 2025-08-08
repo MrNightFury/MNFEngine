@@ -27,7 +27,7 @@ export class Engine {
 
     private lastId: number = 0;
 
-    registry= new Registry();
+    registry = new Registry();
     objects: Set<BaseObject> = new Set();
     currentScene?: IScene;
 
@@ -47,6 +47,8 @@ export class Engine {
 
     
     exit() {
+        this.eventEmitter.emit("exit");
+        this.logger.log("Exiting...");
         Deno.exit(0);
     }
 

@@ -26,4 +26,8 @@ export class Logger {
     error(...args: any[]) {
         console.error(`[${this.label}]`, ...args);
     }
+
+    debug(...args: any[]) {
+        console.debug(`[${this.label}]`, ...args);
+    }
 }

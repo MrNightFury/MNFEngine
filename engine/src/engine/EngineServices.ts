@@ -15,6 +15,7 @@ export interface GameWindow {
     eval(script: string): void;
 }
 
+
 export interface AudioService {
     playSound(identifier: string): void;
     setBackgrountMusic(identifier: string): void;
@@ -22,11 +23,13 @@ export interface AudioService {
     playRandomSequence(baseIdentifier: string, range: number, count: number, interval: number): void;
 }
 
+
 export interface StorageService {
     save<T>(key: string, value: T): void;
     load<T>(key: string): T | undefined;
     remove(key: string): void;
 }
+
 
 export class BaseService {
     protected logger = new Logger(this);

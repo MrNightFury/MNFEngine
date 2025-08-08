@@ -128,7 +128,7 @@ impl World {
                 self.events_buffer.add(CollisionEventType::Update, *id2, *id1);
             }
         }
-        log(&format!("Tick: colliders count: {:?}", self.colliders.len()));
+        log(&format!("[Physics WASM] Tick: colliders count: {:?}", self.colliders.len()));
         return true;
     }
 
