@@ -21,7 +21,7 @@ export function watch<C extends BaseObject, V>(target: ClassAccessorDecoratorTar
 
 
 export function notify<C extends BaseObject, V> (name: string | symbol) {
-    return function (target: (newValue: V) => void, ctx: ClassMethodDecoratorContext<C, (newValue: V) => void>) {
+    return function (target: (newValue: V) => void, _: ClassMethodDecoratorContext<C, (newValue: V) => void>) {
         target = function (this: C, newValue: V) {
             if (!this[notifyHandlersSymbol]) {
                 this[notifyHandlersSymbol] = new Map();
