@@ -6,8 +6,8 @@ import { SceneObject } from "engine/Objects/SceneObject.ts";
 export class ColliderComponent extends BaseComponent<SceneObject> {
     static world: World;
 
-    constructor(parent: SceneObject, type: ColliderType.Circle, params: number)
-    constructor(parent: SceneObject, type: ColliderType.Rectangle, params: { width: number, height: number })
+    constructor(parent: SceneObject, type: ColliderType.Circle, radius: number)
+    constructor(parent: SceneObject, type: ColliderType.Rectangle, size: { width: number, height: number })
     // deno-lint-ignore no-explicit-any
     constructor(parent: SceneObject, type: ColliderType, params: any) {
         super(parent);

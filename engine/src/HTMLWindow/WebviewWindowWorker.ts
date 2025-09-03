@@ -6,7 +6,7 @@ import { Logger } from "misc/Logger.ts";
 
 
 
-const logger = new Logger(new (class WebviewWindowWorker {})());
+const logger = new Logger("WebviewWindowWorker");
 
 const webview = new Webview(true);
 webview.navigate("file://" + path.resolve("index.html"));

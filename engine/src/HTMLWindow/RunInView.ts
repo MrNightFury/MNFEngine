@@ -1,10 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
 import { HTMLObject } from "engine/Objects/HTMLObject.ts";
 import { Engine } from "engine/Engine.ts";
+import { HTMLComponent } from "./HTMLComponent.ts";
 
 
 
-export function getInviewFunction<ARGS extends any[]>(target: (this: any, ...args: ARGS) => any) {
+// Returns function that runs in view context
+// Manipalates function text to fill arguments and call using correct context (oh god forgive me for this hacky solution)
+// Automaticaly use classes own exec method if exists
+export function getInviewFunction<ARGS extends any[]>(target: (this: any, ...args: ARGS) => any, ctx?: Record<string, string>) {
     return function (this: any, ...args: ARGS) {
         let scriptText = target.toString();
         const argsText = scriptText.match(/\(([^)]*)\)/)?.[0] ?? "()";
@@ -21,33 +25,20 @@ export function getInviewFunction<ARGS extends any[]>(target: (this: any, ...arg
         }
         
         const script = `(${scriptText.includes("function") ? "" : "function "}${scriptText})${filledArguments}`;
-        // console.log(filledArguments);
-        // console.log(argsText);
+        // console.log(script);
 
-        if (this && this instanceof HTMLObject) {
+        if (this && (this instanceof HTMLObject || this instanceof HTMLComponent) ) {
             this.exec(script);
         } else {
+            console.warn("inview used on object not having custom .exec implementation, running using default Engine DOM executor");
             Engine.instance.DOM.runScript(script);
         }
     }
 }
 
+
+// Decorator, returns function that runs in view context
+// Automaticaly use classes own exec method if exists
 export function inview<T extends HTMLObject>(target: (this: T | any, ...args: any[]) => any, _ctx: ClassMethodDecoratorContext) {
     return getInviewFunction(target);
 }
-
-// class test {
-//     @inview
-//     test(a: string, b: number) {
-//         console.log(a, b);
-//     }
-// }
-
-// function runEvent(event: string, data: any) {
-//     console.log("Event", event, data);
-// }
-
-
-
-// const text = "console.log('text')";
-// getInviewFunction((text) => eval(text))(text)

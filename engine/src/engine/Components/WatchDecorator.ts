@@ -1,4 +1,5 @@
 import { BaseObject } from 'engine/Objects/BaseObject.ts';
+import { BaseComponent } from "./BaseComponent.ts";
 
 
 export const notifyHandlersSymbol = Symbol('notifyHandlers');
@@ -20,9 +21,30 @@ export function watch<C extends BaseObject, V>(target: ClassAccessorDecoratorTar
 }
 
 
-export function notify<C extends BaseObject, V> (name: string | symbol) {
-    return function (target: (newValue: V) => void, _: ClassMethodDecoratorContext<C, (newValue: V) => void>) {
-        target = function (this: C, newValue: V) {
+export function notify<C extends BaseObject | BaseComponent, V> (name: string | symbol) {
+    if (typeof name == "string" && name.startsWith("parent.")) {
+        name = name.slice(7);
+        return function (target: (this: C, newValue: V) => void, ctx: ClassMethodDecoratorContext<C, (newValue: V) => void>) {
+            ctx.addInitializer(function (this: C) {
+                if (!(this instanceof BaseComponent)) {
+                    throw new Error("@notify with parent. can only be used in components");
+                }
+                if (!this.parent[notifyHandlersSymbol]) {
+                    this.parent[notifyHandlersSymbol] = new Map();
+                }
+                if (!this.parent[notifyHandlersSymbol].has(name)) {
+                    this.parent[notifyHandlersSymbol].set(name, []);
+                }
+                this.parent[notifyHandlersSymbol].get(name)?.push(target.bind(this));
+            })
+        }
+    }
+
+    return function (target: (this: C, newValue: V) => void, ctx: ClassMethodDecoratorContext<C, (newValue: V) => void>) {
+        ctx.addInitializer(function (this: C) {
+            if (!(this instanceof BaseObject)) {
+                    throw new Error("@notify without parent. can only be used in components");
+                }
             if (!this[notifyHandlersSymbol]) {
                 this[notifyHandlersSymbol] = new Map();
             }
@@ -30,7 +52,6 @@ export function notify<C extends BaseObject, V> (name: string | symbol) {
                 this[notifyHandlersSymbol].set(name, []);
             }
             this[notifyHandlersSymbol].get(name)?.push(target.bind(this));
-            target.call(this, newValue);
-        }
+        })
     }
 }

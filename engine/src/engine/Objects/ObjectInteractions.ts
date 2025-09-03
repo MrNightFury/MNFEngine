@@ -18,7 +18,7 @@ interface RunCodeInteraction extends BaseInteraction {
 export type Interaction = RunCodeInteraction;
 
 
-const logger = new Logger(new (class ObjectInteractionParser {})());
+const logger = new Logger("ObjectInteractionParser");
 
 
 export function parseInteraction(interaction: Interaction | Interaction[]): () => void {

@@ -50,8 +50,9 @@ export class PhysicsModule extends Module {
                 otherColliderId: raw[i * 3 + 2]
             };
 
-            this.logger.log("Collision Event:", event);
+            // this.logger.log("Collision Event:", event);
         }
+        this.logger.log("Physics tick completed with", len, "events");
     }
 
 

@@ -2,6 +2,8 @@ import { Module } from "engine/Modules/Module.ts";
 import { FileType } from "engine/Interfaces/PackFileTypes.ts";
 import { ImageObject } from "./ImageObject.ts";
 import { ControlsController, KeyState } from "./ControlsController.ts";
+import { Camera } from "./Camera.ts";
+import { ImageComponent } from "./ImageComponent.ts";
 
 
 console.log(Module)
@@ -10,9 +12,10 @@ export class CoreModule extends Module {
     name = "CoreModule";
 
     controls = new ControlsController();
+    camera = new Camera();
 
     exports = {
-        ImageObject, KeyState, ControlsController
+        ImageObject, KeyState, ControlsController, ImageComponent
     }
 
     async load() {
