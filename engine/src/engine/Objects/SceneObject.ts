@@ -1,4 +1,5 @@
 import { HTMLObject } from "engine/Objects/HTMLObject.ts";
+import { watch } from "../Components/WatchDecorator.ts";
 
 export interface Position {
     /**
@@ -17,7 +18,8 @@ export interface Position {
  * Represents any object that can be added to scene.
  */
 export class SceneObject extends HTMLObject {
-    position: Position;
+    @watch
+    accessor position: Position;
 
     /**
      * @param tag - HTML tag for object
