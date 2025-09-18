@@ -14,24 +14,24 @@ const KeyState = coreModule.exports.KeyState;
 export class Player extends SceneObject {
     module = Engine.instance.modulesManager.getModule<InternalModule>("InternalModule")!;
     
-
+    @notify("position")
     @inview
-    moveInview(x: number, y: number) {
-        x *= 2; y *= 2;
-        this.$.css({ bottom: `+=${y}px`, left: `+=${x}px` });
+    moveInview(newPosition: Position) {
+        this.$.css({ bottom: `${newPosition.y}px`, left: `${newPosition.x}px` });
     }
 
     move(x: number, y: number) {
-        this.moveInview(x, y);
         this.position = { x: this.position.x + x, y: this.position.y + y };
     }
 
     constructor() {
         console.log("Player constructor");
         super("p", { x: 100, y: 100 }, { style: "color: red" });
-        this.addComponent(new coreModule.exports.ImageComponent(this, {
-            src: "https://placehold.net/400x400.png"
-        }))
+        // this.addComponent(new coreModule.exports.ImageComponent(this, {
+        //     src: "https://placehold.net/400x400.png"
+        // }))
+
+        this.addComponent(new coreModule.exports.TextComponent(this, { style: "color: red" }));
 
         Engine.instance.DOM.emitter.on("pageLoaded", () => {
             this.exec(() => {

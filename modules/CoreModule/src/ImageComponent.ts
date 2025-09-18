@@ -10,9 +10,6 @@ import { notify } from "engine/Components/WatchDecorator.ts";
 export interface ImageObjectParams extends ObjectParameters {
     src: string,
     interaction?: Interaction | Interaction[],
-
-    // position: Position | [number, number],
-    // x: number, y: number
 }
 
 

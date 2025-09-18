@@ -4,6 +4,7 @@ import { ImageObject } from "./ImageObject.ts";
 import { ControlsController, KeyState } from "./ControlsController.ts";
 import { Camera } from "./Camera.ts";
 import { ImageComponent } from "./ImageComponent.ts";
+import { TextComponent } from "./TextComponent.ts";
 
 
 console.log(Module)
@@ -15,7 +16,7 @@ export class CoreModule extends Module {
     camera = new Camera();
 
     exports = {
-        ImageObject, KeyState, ControlsController, ImageComponent
+        ImageObject, KeyState, ControlsController, ImageComponent, TextComponent
     }
 
     async load() {
