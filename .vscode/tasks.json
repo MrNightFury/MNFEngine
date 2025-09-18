@@ -5,8 +5,8 @@
     "tasks": [
         {
 			"type": "shell",
-			"label": "BuildAll",
-			"command": ""
+			"label": "launch",
+			"command": "deno run run"
 		}
     ]
 }
