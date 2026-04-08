@@ -8,6 +8,7 @@ use crate::collisions_buffer::*;
 mod colliders;
 mod math;
 mod collisions_buffer;
+mod movement_buffer;
 
 
 #[wasm_bindgen]
