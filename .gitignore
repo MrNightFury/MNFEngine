@@ -4,3 +4,4 @@ docs/
 engine/js
 front/
 engine/WebView2Loader.dll
+target/rust-analyzer/

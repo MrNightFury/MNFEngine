@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
-use std::ops::{ Add, Mul, Sub, Div };
+use std::ops::{ Add, AddAssign, Div, Mul, Sub };
 
 
 #[wasm_bindgen]
@@ -64,5 +64,12 @@ impl Div<f32> for Float2 {
             x: self.x / scalar,
             y: self.y / scalar,
         }
+    }
+}
+
+impl AddAssign for Float2 {
+    fn add_assign(&mut self, other: Float2) {
+        self.x += other.x;
+        self.y += other.y;
     }
 }

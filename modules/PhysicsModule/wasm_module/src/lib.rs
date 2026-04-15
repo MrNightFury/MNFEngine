@@ -2,13 +2,15 @@ use std::collections::{ HashMap, HashSet};
 use wasm_bindgen::prelude::{ wasm_bindgen, JsValue };
 
 use crate::colliders::*;
-use crate::math::*;
 use crate::collisions_buffer::*;
+use crate::math::Float2;
+use crate::movement_buffer::MovementBuffer;
 
 mod colliders;
-mod math;
 mod collisions_buffer;
 mod movement_buffer;
+mod physics_body;
+mod math;
 
 
 #[wasm_bindgen]
@@ -28,10 +30,15 @@ fn log(s: &str) {
 #[wasm_bindgen]
 pub struct World {
     colliders: HashMap<u32, colliders::Collider>,
+    physics_bodies: HashMap<u32, physics_body::PhysicsBody>,
+
     current_collisions: HashSet<(u32, u32)>,
 
     required_events: HashSet<(CollisionEventType, u32)>,
-    events_buffer: CollisionsBuffer,
+    collision_events_buffer: CollisionsBuffer,
+    movement_events_buffer: MovementBuffer,
+
+    pub gravity: Float2,
 }
 
 #[wasm_bindgen]
@@ -40,18 +47,48 @@ impl World {
     pub fn new() -> World {
         World {
             colliders: HashMap::new(),
+            physics_bodies: HashMap::new(),
             current_collisions: HashSet::new(),
 
             required_events: HashSet::new(),
-            events_buffer: CollisionsBuffer::new(),
+            collision_events_buffer: CollisionsBuffer::new(),
+            movement_events_buffer: MovementBuffer::new(),
+            gravity: Float2 { x: 0.0, y: -9.81 },
         }
     }
 
+    pub fn tick(&mut self, dt: f32) -> bool {
+        self.movement_events_buffer.clear();
+        self.collision_events_buffer.clear();
+        // TODO apply forces
+        for (id, body) in self.physics_bodies.iter_mut() {
+            body.position += body.velocity * dt;
+        }
+
+        for (id1, id2) in &self.current_collisions {
+            if self.required_events.contains(&(CollisionEventType::Update, *id1)) {
+                self.collision_events_buffer.add(CollisionEventType::Update, *id1, *id2);
+            }
+            if self.required_events.contains(&(CollisionEventType::Update, *id2)) {
+                self.collision_events_buffer.add(CollisionEventType::Update, *id2, *id1);
+            }
+        }
+        log(&format!("[Physics WASM] Tick: colliders count: {:?}", self.colliders.len()));
+        return true;
+    }
+
     pub fn get_events_buffer_ptr(&self) -> *const u32 {
-        self.events_buffer.ptr()
+        self.collision_events_buffer.ptr()
     }
     pub fn get_events_buffer_len(&self) -> usize {
-        self.events_buffer.len()
+        self.collision_events_buffer.len()
+    }
+
+    pub fn get_movement_buffer_ptr(&self) -> *const u32 {
+        self.movement_events_buffer.ptr()
+    }
+    pub fn get_movement_buffer_len(&self) -> usize {
+        self.movement_events_buffer.len()
     }
 
     pub fn add_collision_handler(&mut self, event: CollisionEventType, collider_id: u32) {
@@ -119,20 +156,6 @@ impl World {
         }
     }
 
-    pub fn tick(&mut self) -> bool {
-        self.events_buffer.clear();
-        for (id1, id2) in &self.current_collisions {
-            if self.required_events.contains(&(CollisionEventType::Update, *id1)) {
-                self.events_buffer.add(CollisionEventType::Update, *id1, *id2);
-            }
-            if self.required_events.contains(&(CollisionEventType::Update, *id2)) {
-                self.events_buffer.add(CollisionEventType::Update, *id2, *id1);
-            }
-        }
-        log(&format!("[Physics WASM] Tick: colliders count: {:?}", self.colliders.len()));
-        return true;
-    }
-
     pub fn update_collisions(&mut self, id: u32) {
         let collider = self.colliders.get(&id);
         if collider.is_none() {
@@ -151,12 +174,12 @@ impl World {
             if collision && !self.current_collisions.contains(&pair) {
                 self.current_collisions.insert(pair);
                 if self.required_events.contains(&(CollisionEventType::Enter, id)) {
-                    self.events_buffer.add(CollisionEventType::Enter, id, *other_id);
+                    self.collision_events_buffer.add(CollisionEventType::Enter, id, *other_id);
                 }
             } else if !collision && self.current_collisions.contains(&pair) {
                 self.current_collisions.remove(&pair);
                 if self.required_events.contains(&(CollisionEventType::Exit, id)) {
-                    self.events_buffer.add(CollisionEventType::Exit, id, *other_id);
+                    self.collision_events_buffer.add(CollisionEventType::Exit, id, *other_id);
                 }
             }
         }
