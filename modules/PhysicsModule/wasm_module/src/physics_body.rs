@@ -10,18 +10,21 @@ pub struct PhysicsBody {
     pub velocity: Float2,
     pub mass: f32,
     pub is_gravity_affected: bool,
+
+    pub collider_id: Option<u32>,
 }
 
 #[wasm_bindgen]
 impl PhysicsBody {
     #[wasm_bindgen(constructor)]
-    pub fn new(id: u32, position: Float2, velocity: Float2, mass: f32, is_gravity_affected: bool) -> Self {
+    pub fn new(id: u32, position: Float2, velocity: Float2, mass: f32, is_gravity_affected: bool, collider_id: Option<u32>) -> Self {
         PhysicsBody {
             id,
             position,
             velocity,
             mass,
             is_gravity_affected,
+            collider_id,
         }
     }
 

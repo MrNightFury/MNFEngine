@@ -2,9 +2,11 @@ use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 use std::ops::{ Add, AddAssign, Div, Mul, Sub };
 
+use crate::utils::ToU32Buffer;
+
 
 #[wasm_bindgen]
-#[derive(Copy, Clone, Deserialize, Serialize, Debug)]
+#[derive(Copy, Clone, Deserialize, Serialize, Debug, PartialEq)]
 pub struct Float2 {
     pub x: f32,
     pub y: f32,
@@ -72,4 +74,12 @@ impl AddAssign for Float2 {
         self.x += other.x;
         self.y += other.y;
     }
+}
+
+impl ToU32Buffer for Float2 {
+    fn write_u32(&self, buf: &mut Vec<u32>) {
+        self.x.write_u32(buf);
+        self.y.write_u32(buf);
+    }
+    const STRIDE: usize = 2;
 }

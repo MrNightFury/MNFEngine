@@ -4,13 +4,6 @@ use crate::math::Float2;
 
 
 #[wasm_bindgen]
-#[derive(PartialEq, Eq, Hash)]
-#[repr(u32)]
-pub enum MovementEventType {
-    Update,
-}
-
-#[wasm_bindgen]
 pub struct MovementBuffer {
     buffer: Vec<u32>,
 }
@@ -23,8 +16,7 @@ impl MovementBuffer {
         }
     }
 
-    pub fn add(&mut self, event_type: MovementEventType, collider_id: u32, new_pos: Float2) {
-        self.buffer.push(event_type as u32);
+    pub fn add(&mut self, collider_id: u32, new_pos: Float2) {
         self.buffer.push(collider_id);
         self.buffer.push(new_pos.x as u32);
         self.buffer.push(new_pos.y as u32);

@@ -5,12 +5,14 @@ use crate::colliders::*;
 use crate::collisions_buffer::*;
 use crate::math::Float2;
 use crate::movement_buffer::MovementBuffer;
+use crate::physics_body::PhysicsBody;
 
 mod colliders;
 mod collisions_buffer;
 mod movement_buffer;
 mod physics_body;
 mod math;
+mod utils;
 
 
 #[wasm_bindgen]
@@ -61,9 +63,20 @@ impl World {
         self.movement_events_buffer.clear();
         self.collision_events_buffer.clear();
         // TODO apply forces
-        for (id, body) in self.physics_bodies.iter_mut() {
+
+        // Move objects according to velocity
+        let mut moved_objects: Vec<&PhysicsBody> = Vec::new();
+        for (id, body) in (&mut self.physics_bodies).iter_mut() {
+            let start_position = body.position.clone();
             body.position += body.velocity * dt;
+
+            if body.position != start_position {
+                moved_objects.push(body);
+            }
         }
+
+
+
 
         for (id1, id2) in &self.current_collisions {
             if self.required_events.contains(&(CollisionEventType::Update, *id1)) {
