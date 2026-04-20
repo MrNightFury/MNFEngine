@@ -28,5 +28,8 @@
     "rust-analyzer.linkedProjects": [
         "./modules/PhysicsModule/wasm_module/Cargo.toml"
     ],
-    "github.copilot.nextEditSuggestions.enabled": false
+    "github.copilot.nextEditSuggestions.enabled": false,
+    "github.copilot.enable": {
+        "rust": false
+    }
 }

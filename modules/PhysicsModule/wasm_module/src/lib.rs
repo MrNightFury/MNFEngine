@@ -4,15 +4,18 @@ use wasm_bindgen::prelude::{ wasm_bindgen, JsValue };
 use crate::colliders::*;
 use crate::collisions_buffer::*;
 use crate::math::Float2;
-use crate::movement_buffer::MovementBuffer;
 use crate::physics_body::PhysicsBody;
+use crate::utils::{ log };
 
 mod colliders;
 mod collisions_buffer;
-mod movement_buffer;
 mod physics_body;
 mod math;
 mod utils;
+
+
+impl_event_buffer!(Movement, collider_id: u32, pos: Float2);
+impl_event_buffer!(Collision, collider_a: u32, collider_b: u32);
 
 
 #[wasm_bindgen]
@@ -20,14 +23,6 @@ pub fn test() {
     log(&"WASM module loaded successfully!");
 }
 
-fn log(s: &str) {
-    let global = js_sys::global();
-    let console = js_sys::Reflect::get(&global, &JsValue::from_str("console")).unwrap();
-    let log_fn = js_sys::Reflect::get(&console, &JsValue::from_str("log")).unwrap();
-
-    let _ = js_sys::Function::from(log_fn)
-        .call1(&JsValue::NULL, &JsValue::from_str(s));
-}
 
 #[wasm_bindgen]
 pub struct World {

@@ -1,9 +1,3 @@
-use wasm_bindgen::prelude::*;
-use paste::paste;
-
-use crate::{math::Float2};
-
-
 pub trait ToU32Buffer {
     fn write_u32(&self, buf: &mut Vec<u32>);
     const STRIDE: usize; 
@@ -24,25 +18,27 @@ impl ToU32Buffer for f32 {
 }
 
 
+#[macro_export]
 macro_rules! sum_stride {
     ($last:ty) => {
-        <$last as ToU32Buffer>::STRIDE
+        <$last as crate::utils::ToU32Buffer>::STRIDE
     };
     ($head:ty, $($tail:ty),+) => { 
-        <$head as ToU32Buffer>::STRIDE + sum_stride!($($tail),+) 
+        <$head as crate::utils::ToU32Buffer>::STRIDE + sum_stride!($($tail),+) 
     };
 }
 
 
+#[macro_export]
 macro_rules! impl_event_buffer {
-    ($event_name:ident, $($field:ident: $ty:ty),* $(,)?) => { paste!{
+    ($event_name:ident, $($field:ident: $ty:ty),* $(,)?) => { paste::paste!{
         #[wasm_bindgen]
         #[derive(Clone, Copy)]
         pub struct $event_name {
             $(pub $field: $ty),*
         }
         
-        impl ToU32Buffer for $event_name {
+        impl crate::utils::ToU32Buffer for $event_name {
             fn write_u32(&self, buf: &mut Vec<u32>) {
                 $(self.$field.write_u32(buf);)*
             }
@@ -53,13 +49,13 @@ macro_rules! impl_event_buffer {
         pub struct [<$event_name Buffer>] {
             buffer: Vec<u32>,
         }
-        
+
         #[wasm_bindgen]
         impl [<$event_name Buffer>] {
             pub fn new() -> Self { Self { buffer: Vec::new() } }
             
             pub fn add(&mut self, event: $event_name) {
-                event.write_u32(&mut self.buffer);
+                <$event_name as $crate::utils::ToU32Buffer>::write_u32(&event, &mut self.buffer);
             }
             
             pub fn ptr(&self) -> *const u32 {
@@ -67,13 +63,10 @@ macro_rules! impl_event_buffer {
             }
             
             pub fn len(&self) -> usize { 
-                self.buffer.len() / <$event_name as ToU32Buffer>::STRIDE 
+                self.buffer.len() / <$event_name as crate::utils::ToU32Buffer>::STRIDE 
             }
             
             pub fn clear(&mut self) { self.buffer.clear(); }
         }
     }
 }}
-
-impl_event_buffer!(MovementEvent, collider_id: u32, pos: Float2);
-impl_event_buffer!(Collision, collider_a: u32, collider_b: u32);
